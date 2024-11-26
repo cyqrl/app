@@ -1,6 +1,6 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
+import { Tabs } from "expo-router";
+import React from "react";
+import { View, Image, StyleSheet, Text } from "react-native";
 
 const c = "#CCCCFF";
 
@@ -11,16 +11,16 @@ export default function TabLayout() {
         headerShown: true,
         headerStyle: {
           height: 90,
-          backgroundColor: 'black',
+          backgroundColor: "black",
         },
         headerTitleStyle: {
-          color: '#FFFFFF',
+          color: "#FFFFFF",
           fontSize: 20,
         },
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         tabBarStyle: {
           height: 80,
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
           elevation: 0,
           borderTopWidth: 0,
         },
@@ -28,27 +28,21 @@ export default function TabLayout() {
           <View
             style={{
               height: 80,
-              backgroundColor: '#292966',
-              justifyContent: 'center',
-              alignItems: 'center',
+              backgroundColor: "#292966",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           />
         ),
       }}
     >
-
       <Tabs.Screen
         name="index"
         options={{
-          title: 'الرئيسية',
+          title: "الرئيسية",
           tabBarLabel: ({ focused }) => (
             <View style={styles.labelContainer}>
-              <Text
-                style={[
-                  styles.tabLabel,
-                  focused && styles.activeTabLabel,
-                ]}
-              >
+              <Text style={[styles.tabLabel, focused && styles.activeTabLabel]}>
                 الرئيسية
               </Text>
               {focused && <View style={styles.underline} />}
@@ -56,9 +50,7 @@ export default function TabLayout() {
           ),
           tabBarIcon: () => (
             <Image
-              source={{
-                uri: 'https://media.discordapp.net/attachments/1308153830676103218/1309229557118795799/home-icon-silhouette.png?ex=6740d28a&is=673f810a&hm=51fdd8ebdd9a065a95c91ca36e24302a86683f8096108000177f81baec36306e&=&format=webp&quality=lossless',
-              }}
+              source={require("@/assets/images/home.png")}
               style={{ width: 28, height: 28 }}
             />
           ),
@@ -69,25 +61,18 @@ export default function TabLayout() {
       <Tabs.Screen
         name="Contact"
         options={{
-          title: 'اتصل بنا',
+          title: "من نحن",
           tabBarLabel: ({ focused }) => (
             <View style={styles.labelContainer}>
-              <Text
-                style={[
-                  styles.tabLabel,
-                  focused && styles.activeTabLabel,
-                ]}
-              >
-                اتصل بنا
+              <Text style={[styles.tabLabel, focused && styles.activeTabLabel]}>
+                من نحن
               </Text>
               {focused && <View style={styles.underline} />}
             </View>
           ),
           tabBarIcon: () => (
             <Image
-              source={{
-                uri: 'https://media.discordapp.net/attachments/1308153830676103218/1309239435002515588/send.png?ex=6740dbbd&is=673f8a3d&hm=05ca13286d50219b5f9be7acc8aad8ace1066d3e9713817c8b81dc6964c36d14&=&format=webp&quality=lossless',
-              }}
+              source={require("@/assets/images/send.png")}
               style={{ width: 30, height: 30 }}
             />
           ),
@@ -98,15 +83,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="Achievements"
         options={{
-          title: 'إنجازات',
+          title: "إنجازات",
           tabBarLabel: ({ focused }) => (
             <View style={styles.labelContainer}>
-              <Text
-                style={[
-                  styles.tabLabel,
-                  focused && styles.activeTabLabel,
-                ]}
-              >
+              <Text style={[styles.tabLabel, focused && styles.activeTabLabel]}>
                 إنجازات
               </Text>
               {focused && <View style={styles.underline} />}
@@ -114,9 +94,7 @@ export default function TabLayout() {
           ),
           tabBarIcon: () => (
             <Image
-              source={{
-                uri: 'https://cdn.discordapp.com/attachments/1308153830676103218/1309174823083049113/medals.png?ex=67409f91&is=673f4e11&hm=52402bd45364725054cc754482153c772397944ee7c13d7f2c6686239870bb1c&',
-              }}
+              source={require("@/assets/images/medals.png")} 
               style={{ width: 35, height: 35 }}
             />
           ),
@@ -126,7 +104,7 @@ export default function TabLayout() {
       {/* Hidden Tab */}
       <Tabs.Screen
         name="first"
-        options={{ tabBarItemStyle: { display: 'none' } }}
+        options={{ tabBarItemStyle: { display: "none" } }}
       />
     </Tabs>
   );
@@ -134,21 +112,20 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   labelContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   tabLabel: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     color: c,
   },
   activeTabLabel: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   underline: {
-
-    position: 'absolute',
+    position: "absolute",
     bottom: -10,
-    width: '110%',
+    width: "110%",
     height: 2,
     backgroundColor: c,
   },

@@ -37,24 +37,24 @@ const Index = () => {
     inputRange: [0, 1],
     outputRange: [
       `M0,50 C${width},100 ${width},30 ${width * 10},50 L${width},150 L0,150 Z`,
-      `M2,60 C${width * 0},72 ${width * 0},-10 ${width * 10},50 L${width * 5},150 L0,150 Z`,
+      `M2,60 C${width * 0},72 ${width * 0},-10 ${width * 10},5 L${width * 5},150 L0,150 Z`,
     ],
   });
 
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.hero}>
-        <Text style={styles.title}>أهلا وسهلا بكم في بوابة الصناعي</Text>
+        
+        <Text style={styles.title}>
+          أهلا وسهلا بكم {"\n"} في بوابة الصناعي
+        </Text>
         <Svg
           width={width}
           height={150}
           viewBox={`0 0 ${width} 150`}
           style={styles.svg}
         >
-          <AnimatedPath
-            d={wavePath}
-            fill="#fff"
-          />
+          <AnimatedPath d={wavePath} fill="#fff" />
         </Svg>
       </LinearGradient>
       <View style={styles.buttons}>
@@ -81,10 +81,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   hero: {
+    paddingHorizontal:10,
     flex: 1,
+    
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
+    top: -6,
     overflow: "hidden",
   },
   svg: {
@@ -95,10 +98,10 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#fff",
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 70,
+    marginBottom: 25,
     justifyContent: "center",
     zIndex: 10,
   },

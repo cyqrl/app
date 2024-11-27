@@ -44,7 +44,7 @@ const Index = () => {
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.hero}>
-        
+
         <Text style={styles.title}>
           أهلا وسهلا بكم {"\n"} في بوابة الصناعي
         </Text>
@@ -137,3 +137,8 @@ const styles = StyleSheet.create({
 });
 
 export default Index;
+
+
+function main() {
+  console.log("hello");
+}

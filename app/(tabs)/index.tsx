@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 25,
+    marginBottom: 70,
     justifyContent: "center",
     zIndex: 10,
   },

@@ -37,7 +37,7 @@ const Index = () => {
     inputRange: [0, 1],
     outputRange: [
       `M0,50 C${width},100 ${width},30 ${width * 10},50 L${width},150 L0,150 Z`,
-      `M2,60 C${width * 0},72 ${width * 0},-10 ${width * 10},5 L${width * 5},150 L0,150 Z`,
+      `M2,60 C${width * 0},72 ${width * 0},-10 ${width * 10},50 L${width * 5},150 L0,150 Z`,
     ],
   });
 
@@ -137,8 +137,3 @@ const styles = StyleSheet.create({
 });
 
 export default Index;
-
-
-function main() {
-  console.log("hello");
-}

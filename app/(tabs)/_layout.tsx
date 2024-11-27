@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 
-const c = "#CCCCFF";
+const c = "#fff";
 
 export default function TabLayout() {
   return (
@@ -94,7 +94,7 @@ export default function TabLayout() {
           ),
           tabBarIcon: () => (
             <Image
-              source={require("@/assets/images/medals.png")} 
+              source={require("@/assets/images/medals.png")}
               style={{ width: 35, height: 35 }}
             />
           ),
@@ -106,16 +106,21 @@ export default function TabLayout() {
         name="first"
         options={{ tabBarItemStyle: { display: "none" } }}
       />
+      <Tabs.Screen
+        name="second"
+        options={{ tabBarItemStyle: { display: "none" } }}
+      />
     </Tabs>
   );
 }
 
 const styles = StyleSheet.create({
   labelContainer: {
+    marginTop: 5,
     alignItems: "center",
   },
   tabLabel: {
-    fontSize: 16,
+    fontSize: 17,
     textAlign: "center",
     color: c,
   },

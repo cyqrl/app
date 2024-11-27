@@ -1,11 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  Animated,
-} from "react-native";
+import { StyleSheet, View, Text, Dimensions, Animated } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
@@ -37,24 +31,21 @@ const Index = () => {
     inputRange: [0, 1],
     outputRange: [
       `M0,50 C${width},100 ${width},30 ${width * 10},50 L${width},150 L0,150 Z`,
-      `M2,60 C${width * 0},72 ${width * 0},-10 ${width * 10},50 L${width * 5},150 L0,150 Z`,
+      `M2,60 C${0},72 ${0},-10 ${width * 10},50 L${width * 5},150 L0,150 Z`,
     ],
   });
 
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.hero}>
-
-        <Text style={styles.title}>
-          أهلا وسهلا بكم {"\n"} في بوابة الصناعي
-        </Text>
+        <Text style={styles.title}>أهلا وسهلا بكم {"\n"} في بوابة الصناعي</Text>
         <Svg
           width={width}
           height={150}
           viewBox={`0 0 ${width} 150`}
           style={styles.svg}
         >
-          <AnimatedPath d={wavePath} fill="#fff" />
+          <AnimatedPath d={wavePath} fill="#ccccff" />
         </Svg>
       </LinearGradient>
       <View style={styles.buttons}>
@@ -64,7 +55,7 @@ const Index = () => {
           </Link>
         </LinearGradient>
         <LinearGradient colors={["#5c5c99", "#292966"]} style={styles.button}>
-          <Link style={styles.link} href={"/(tabs)/first"}>
+          <Link style={styles.link} href={"./second"}>
             <Text style={styles.buttonText}>الثاني ثانوي</Text>
           </Link>
         </LinearGradient>
@@ -78,12 +69,12 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ccccff",
   },
   hero: {
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     flex: 1,
-    
+
     justifyContent: "center",
     alignItems: "center",
     position: "relative",

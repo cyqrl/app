@@ -5,17 +5,22 @@ import { Link } from 'expo-router'; // Make sure you have expo-router installed
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-        <Text>welcome to the explore screen!</Text>
+        <View style={styles.main}></View>
     </View>
   );
 }
 
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     display: 'flex',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ccccff',
   },
   heading: {
     position: 'absolute',

@@ -14,7 +14,7 @@ export default function Achievements() {
 let styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#ccccff',
       alignItems: 'center',
       justifyContent: 'center',
     },

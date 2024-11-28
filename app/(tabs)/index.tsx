@@ -1,19 +1,59 @@
-import React from "react";
-import { StyleSheet, View, Text,Dimensions, Animated } from "react-native";
+import React, { useRef, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  Animated,
+} from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+
 const { width } = Dimensions.get("window");
 
 const Index = () => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(animatedValue, {
+          toValue: 1,
+          duration: 3000,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animatedValue, {
+          toValue: 0,
+          duration: 2500,
+          useNativeDriver: false,
+        }),
+      ])
+    ).start();
+  }, [animatedValue]);
+
+  // Interpolating the animation to affect the wave height
+  const wavePath = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [
+      `M0,50 C${width},100 ${width},30 ${width * 10},50 L${width},150 L0,150 Z`,
+      `M2,60 C${width * 0},72 ${width * 0},-10 ${width * 10},50 L${width * 5},150 L0,150 Z`,
+    ],
+  });
+
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.hero}>
-        <Svg id="color-wave" viewBox="0 0 1440 126" style={styles.svg}>
-          <Path
-            d="M685.6,38.8C418.7-11.1,170.2,9.9,0,30v96h1440V30C1252.7,52.2,1010,99.4,685.6,38.8z"
+        <Text style={styles.title}>أهلا وسهلا بكم في بوابة الصناعي</Text>
+        <Svg
+          width={width}
+          height={150}
+          viewBox={`0 0 ${width} 150`}
+          style={styles.svg}
+        >
+          <AnimatedPath
+            d={wavePath}
             fill="#fff"
-            stroke="none"
           />
         </Svg>
       </LinearGradient>
@@ -24,7 +64,7 @@ const Index = () => {
           </Link>
         </LinearGradient>
         <LinearGradient colors={["#5c5c99", "#292966"]} style={styles.button}>
-          <Link style={styles.link} href={"./second"}>
+          <Link style={styles.link} href={"/(tabs)/first"}>
             <Text style={styles.buttonText}>الثاني ثانوي</Text>
           </Link>
         </LinearGradient>
@@ -38,16 +78,13 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ccccff",
+    backgroundColor: "#fff",
   },
   hero: {
-    paddingHorizontal: 10,
     flex: 1,
-
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    top: -6,
     overflow: "hidden",
   },
   svg: {
@@ -66,17 +103,15 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   buttons: {
-    position: "relative",
-    top: -20,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   button: {
-    width: "60%",
-    height: 120,
+    width: "50%",
+    height: 100,
     borderRadius: 10,
-    marginBottom: 50,
+    marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -89,7 +124,7 @@ const styles = StyleSheet.create({
     padding: 17,
   },
   buttonText: {
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: "bold",
     color: "#fff",
     textAlign: "center",

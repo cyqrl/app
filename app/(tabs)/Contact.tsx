@@ -5,16 +5,32 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Linking,
+  Dimensions,
 } from "react-native";
 import { Link } from "expo-router";
+
 export default function AboutUsScreen() {
+  const { height } = Dimensions.get("window");
+
+  const handleEmailPress = () => {
+    Linking.openURL("mailto:support@eduapp.com");
+  };
+
+  const handlePhonePress = () => {
+    Linking.openURL("tel:+970599282844");
+  };
+
   return (
     <View style={styles.container}>
-      {/* محتوى الصفحة القابل للتمرير */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: height * 0.1 },
+        ]}
+      >
         <View style={styles.sect}>
-          {/* قسم من نحن */}
-          <View style={styles.section}>
+          <View style={[styles.section, styles.sectionYellow]}>
             <Text style={styles.sectionTitle}>من نحن</Text>
             <Text style={styles.sectionText}>
               نحن فريق شغوف بالتعليم، نسعى لدعم طلبة الفرع الصناعي من خلال تقديم
@@ -23,9 +39,7 @@ export default function AboutUsScreen() {
               الأكاديمية والمهنية.
             </Text>
           </View>
-
-          {/* قسم رسالتنا */}
-          <View style={styles.section}>
+          <View style={[styles.section, styles.sectionGold]}>
             <Text style={styles.sectionTitle}>رسالتنا</Text>
             <Text style={styles.sectionText}>
               تمكين الطلبة في الفرع الصناعي من الوصول إلى محتوى تعليمي متميز
@@ -33,18 +47,14 @@ export default function AboutUsScreen() {
               ناجح.
             </Text>
           </View>
-
-          {/* قسم رؤيتنا */}
-          <View style={styles.section}>
+          <View style={[styles.section, styles.sectionYellow]}>
             <Text style={styles.sectionTitle}>رؤيتنا</Text>
             <Text style={styles.sectionText}>
               أن نكون المنصة التعليمية الأولى لطلبة الفرع الصناعي، مما يساعدهم
               على التميز في دراستهم والاستعداد لمتطلبات سوق العمل.
             </Text>
           </View>
-
-          {/* قسم ماذا نقدم */}
-          <View style={styles.section}>
+          <View style={[styles.section, styles.sectionGold]}>
             <Text style={styles.sectionTitle}>ماذا نقدم؟</Text>
             <Text style={styles.sectionText}>
               - **امتحانات سابقة**: مجموعة شاملة من الامتحانات لتدريب الطلبة على
@@ -55,9 +65,7 @@ export default function AboutUsScreen() {
               المهني.
             </Text>
           </View>
-
-          {/* قسم لماذا نحن */}
-          <View style={styles.section}>
+          <View style={[styles.section, styles.sectionYellow]}>
             <Text style={styles.sectionTitle}>لماذا نحن؟</Text>
             <Text style={styles.sectionText}>
               - تصميم بسيط وسهل الاستخدام.{"\n"}- محتوى محدث يلبي احتياجات
@@ -67,18 +75,17 @@ export default function AboutUsScreen() {
             </Text>
           </View>
         </View>
-        {/* التذييل */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>تواصل معنا:</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleEmailPress}>
             <Text style={styles.contactText}>📧 support@eduapp.com</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.contactText}>📞 +123 456 789</Text>
+          <TouchableOpacity onPress={handlePhonePress}>
+            <Text style={styles.contactText}>📞 +970 599 282 844</Text>
           </TouchableOpacity>
           <TouchableOpacity>
             <Link href="https://www.eschool.edu.ps">
-              <Text style={styles.contactText}>🌐 بيئة التواصل الالكتروني المدرسي</Text>
+              <Text style={styles.contactText}>🌐 ESchool</Text>
             </Link>
           </TouchableOpacity>
         </View>
@@ -88,37 +95,44 @@ export default function AboutUsScreen() {
 }
 
 const styles = StyleSheet.create({
-  sect: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
   container: {
     flex: 1,
-    backgroundColor: "#ccccff",
+    backgroundColor: "#36393f",
+  },
+  sect: {
+    paddingBottom: 20,
   },
   section: {
-    marginBottom: 20,
+    padding: 15,
+  },
+  sectionYellow: {
+    backgroundColor: "#5c5c99",
+  },
+  sectionGold: {
+    backgroundColor: "#a3a3cc",
   },
   sectionTitle: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#ffffff",
+    color: "#000",
     marginBottom: 10,
-    textAlign: "right", // الكتابة من اليمين
+    textAlign: "right",
   },
   sectionText: {
     fontSize: 20,
-    color: "#ffffff",
+    color: "#011",
     lineHeight: 24,
-    textAlign: "right", // الكتابة من اليمين
+    textAlign: "right",
   },
   footer: {
-    height: 80,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
     backgroundColor: "#333",
     justifyContent: "center",
-    alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#444",
+    alignItems: "flex-start",
+    paddingVertical: 10,
+    padding:20,
   },
   footerText: {
     fontSize: 16,
@@ -132,5 +146,5 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-  }
+  },
 });

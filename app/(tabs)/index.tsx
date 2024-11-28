@@ -5,7 +5,9 @@ import {
   Text,
   Dimensions,
   Animated,
+  Image
 } from "react-native";
+import fs from "fs";
 import Svg, { Path } from "react-native-svg";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
@@ -13,50 +15,10 @@ import { LinearGradient } from "expo-linear-gradient";
 const { width } = Dimensions.get("window");
 
 const Index = () => {
-  const animatedValue = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(animatedValue, {
-          toValue: 1,
-          duration: 3000,
-          useNativeDriver: false,
-        }),
-        Animated.timing(animatedValue, {
-          toValue: 0,
-          duration: 2500,
-          useNativeDriver: false,
-        }),
-      ])
-    ).start();
-  }, [animatedValue]);
-
-  // Interpolating the animation to affect the wave height
-  const wavePath = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [
-      `M0,50 C${width},100 ${width},30 ${width * 10},50 L${width},150 L0,150 Z`,
-      `M2,60 C${width * 0},72 ${width * 0},-10 ${width * 10},50 L${width * 5},150 L0,150 Z`,
-    ],
-  });
-
+  
   return (
     <View style={styles.container}>
-      <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.hero}>
-        <Text style={styles.title}>أهلا وسهلا بكم في بوابة الصناعي</Text>
-        <Svg
-          width={width}
-          height={150}
-          viewBox={`0 0 ${width} 150`}
-          style={styles.svg}
-        >
-          <AnimatedPath
-            d={wavePath}
-            fill="#fff"
-          />
-        </Svg>
-      </LinearGradient>
+      
       <View style={styles.buttons}>
         <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.button}>
           <Link style={styles.link} href={"/(tabs)/first"}>
@@ -69,6 +31,17 @@ const Index = () => {
           </Link>
         </LinearGradient>
       </View>
+      <View>
+      <Link href="./Contact" style={styles.info}>
+        <Image
+          source={require("@/assets/images/send.png")}
+          style={{ width: 24, height: 24 }}
+        />
+        <Text>من نحن</Text>
+      </Link>
+
+         
+      </View>
     </View>
   );
 };
@@ -76,32 +49,26 @@ const Index = () => {
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 const styles = StyleSheet.create({
+  info: {
+    display: "flex",
+    backgroundColor: "#292966",
+    color: "white",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 60,
+    width: 60,
+    borderTopEndRadius: 10,
+    borderBottomEndRadius: 10,
+    position: "absolute",
+    bottom:10
+  },
+  
   container: {
     flex: 1,
     backgroundColor: "#fff",
   },
-  hero: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative",
-    overflow: "hidden",
-  },
-  svg: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  title: {
-    color: "#fff",
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 70,
-    justifyContent: "center",
-    zIndex: 10,
-  },
+  
   buttons: {
     flex: 1,
     justifyContent: "center",

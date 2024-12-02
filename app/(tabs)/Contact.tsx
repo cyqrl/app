@@ -123,10 +123,12 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 16,
     color: "#fff",
+    textAlign: "right",
     fontWeight: "bold",
     marginBottom: 5,
   },
   contactText: {
+    textAlign: "right",
     fontSize: 14,
     color: "#ddd",
   },

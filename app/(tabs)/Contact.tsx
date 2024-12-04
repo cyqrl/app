@@ -4,6 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Image,
   TouchableOpacity,
 } from "react-native";
 import { Link } from "expo-router";
@@ -22,7 +23,7 @@ export default function AboutUsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.sect}>
-          {/* About Us section   */}
+          {/* About Us section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>من نحن</Text>
             <Text style={styles.sectionText}>
@@ -33,7 +34,7 @@ export default function AboutUsScreen() {
             </Text>
           </View>
 
-          {/* Our Mission section  */}
+          {/* Our Mission section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>رسالتنا</Text>
             <Text style={styles.sectionText}>
@@ -69,39 +70,76 @@ export default function AboutUsScreen() {
             <Text style={styles.sectionTitle}>لماذا نحن؟</Text>
             <Text style={styles.sectionText}>
               - تصميم بسيط وسهل الاستخدام.{"\n"}- محتوى محدث يلبي احتياجات
-              الطلبة.
-              {"\n"}- متاح في أي وقت ومن أي مكان.{"\n"}- يساهم في بناء مجتمع
-              طلابي متعاون.
+              الطلبة.{"\n"}- متاح في أي وقت ومن أي مكان.{"\n"}- يساهم في بناء
+              مجتمع طلابي متعاون.
             </Text>
           </View>
         </View>
 
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>تواصل معنا:</Text>
+        <View>
+          {/* Footer */}
+          <View style={styles.footer}>
+            <View style={styles.footerContent}>
+              <View>
+                <Text style={styles.footerText}>تواصل معنا:</Text>
 
-          <View style={styles.contactWrapper}>
-            <TouchableOpacity>
-              <Link href="mailto:">
-                <Text style={styles.contactText}>📧 Ind-Por@edu.com</Text>
-              </Link>
-            </TouchableOpacity>
-          </View>
+                <View style={styles.contactWrapper}>
+                  <TouchableOpacity>
+                    <Link href="mailto:industryportalhub@gmail.com">
+                      <Text style={styles.contactText}>📧 Ind-Por@edu.com</Text>
+                    </Link>
+                  </TouchableOpacity>
+                </View>
 
-          <View style={styles.contactWrapper}>
-            <TouchableOpacity>
-              <Link href="tel:">
-                <Text style={styles.contactText}>📞 +970 123456789</Text>
-              </Link>
-            </TouchableOpacity>
-          </View>
+                <View style={styles.contactWrapper}>
+                  <TouchableOpacity>
+                    <Link href="tel:+970123456789">
+                      <Text style={styles.contactText}>📞 +970 123456789</Text>
+                    </Link>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View>
+                <Text style={{ ...styles.footerText }}> روابط مهمة:</Text>
 
-          <View style={styles.contactWrapper}>
-            <TouchableOpacity>
-              <Link href="https://www.eschool.edu.ps">
-                <Text style={styles.contactText}>🌐 eschool</Text>
-              </Link>
-            </TouchableOpacity>
+                <View style={styles.contactWrapper}>
+                  <TouchableOpacity>
+                    <Link href="https://www.moe.edu.ps/">
+                      <Text style={styles.contactText}>
+                        📚 Ministry of Education
+                      </Text>
+                    </Link>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.contactWrapper}>
+                  <TouchableOpacity>
+                    <Link href="https://www.eschool.edu.ps">
+                      <Text style={styles.contactText}>🏤 eschool</Text>
+                    </Link>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+
+            {/* Logos below footer content */}
+            <View style={styles.imageContainer}>
+              <Image
+                source={require("@/assets/images/pal.png")}
+                style={styles.topImage1}
+                resizeMode="contain"
+              />
+              <Image
+                source={require("@/assets/images/injaz.png")}
+                style={styles.topImage2}
+                resizeMode="contain"
+              />
+              <Image
+                source={require("@/assets/images/jiss_school.png")}
+                style={styles.topImage3}
+                resizeMode="contain"
+              />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -113,6 +151,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
+  },
+  imageContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  topImage1: {
+    width: 90,
+    height: 90,
+    marginLeft: 10,
+    marginTop: 20,
+  },
+  topImage2: {
+    width: 120,
+    height: 120,
+    marginLeft: -20,
+    marginTop: 10,
+  },
+  topImage3: {
+    width: 70,
+    height: 70,
+    marginLeft: -20,
+    marginTop: 30,
   },
   sect: {
     paddingHorizontal: 20,
@@ -141,29 +202,35 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   footer: {
-    height: 300,
+    display: "flex",
     backgroundColor: "#333",
     flexDirection: "column",
-    justifyContent: "center",
-    textAlign: "right",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
+    paddingVertical: 5,
+  },
+  footerContent: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    paddingBottom: 10,
   },
   footerText: {
-    fontSize: 20,
+    fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 5,
+    marginTop: 5,
     textAlign: "right",
   },
   contactWrapper: {
     width: "auto",
-    alignSelf: "flex-start",
-    marginVertical: 7,
+    marginVertical: 5,
   },
   contactText: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#ddd",
-    textAlign: "right",
+    textAlign: "center",
   },
   scrollContent: {
     flexGrow: 1,

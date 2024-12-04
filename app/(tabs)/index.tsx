@@ -1,9 +1,15 @@
 import React, { useRef, useEffect } from "react";
-import { StyleSheet, View, Text, Dimensions, Animated, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  Animated,
+  Image,
+} from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-
 
 const { width } = Dimensions.get("window");
 
@@ -37,27 +43,30 @@ const Index = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["rgb(203, 203, 255)", "rgb(255, 255, 255)"]}
+      style={styles.container}
+    >
       <View style={styles.imageContainer}>
         <Image
-          source={require('@/assets/images/pal.png')}
+          source={require("@/assets/images/pal.png")}
           style={styles.topImage1}
           resizeMode="contain"
         />
         <Image
-          source={require('@/assets/images/injaz.png')}
+          source={require("@/assets/images/injaz.png")}
           style={styles.topImage2}
           resizeMode="contain"
         />
         <Image
-          source={require('@/assets/images/jiss_school.png')}
+          source={require("@/assets/images/jiss_school.png")}
           style={styles.topImage3}
           resizeMode="contain"
         />
       </View>
       <View style={styles.logoContainer}>
         <Image
-          source={require('@/assets/images/Industry_Portal_logo.png')}
+          source={require("@/assets/images/Industry_Portal_logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -70,7 +79,7 @@ const Index = () => {
           viewBox={`0 0 ${width} 150`}
           style={styles.svg}
         >
-          <AnimatedPath d={wavePath} fill="#CBCBFF" />
+          <AnimatedPath d={wavePath} fill="#e6e6ff" />
         </Svg>
       </LinearGradient>
       <View style={styles.buttons}>
@@ -85,7 +94,7 @@ const Index = () => {
           </Link>
         </LinearGradient>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -94,14 +103,15 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#CBCBFF",
+    backgroundImage:
+      "linear-gradient(to bottom, rgb(203, 203, 255), rgb(255, 255, 255) 80%);",
   },
   imageContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     zIndex: 20,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   topImage1: {
     width: 60,
@@ -120,16 +130,16 @@ const styles = StyleSheet.create({
     marginLeft: -20,
     marginTop: 6,
   },
-  logoContainer:{
-    position: 'absolute',
+  logoContainer: {
+    position: "absolute",
     top: 0,
     right: 0,
     zIndex: 20,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
-  logo : {
+  logo: {
     width: 95,
-    height : 95,
+    height: 95,
     marginTop: -10,
     marginRight: -25,
   },

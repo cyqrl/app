@@ -7,11 +7,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Link } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function AboutUsScreen() {
   return (
-    <View style={styles.container}>
-      <ScrollView 
+    <LinearGradient
+      colors={["rgb(255, 255, 255)", "rgb(203, 203, 255)"]}
+      start={{ x: 1, y: 1 }}
+      end={{ x: 0, y: 0 }}
+      style={styles.container}
+    >
+      <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
@@ -52,10 +58,9 @@ export default function AboutUsScreen() {
             <Text style={styles.sectionText}>
               - امتحانات سابقة: مجموعة شاملة من الامتحانات لتدريب الطلبة على
               مختلف الأنماط والأسئلة.{"\n"}- أوراق عمل تمارين عملية تغطي
-              المواضيع الأساسية والمتقدمة.{"\n"}- ملخصات ومذكرات محتوى
-              مختصر يسهّل مراجعة المعلومات المهمة.{"\n"}- نصائح وإرشادات:
-              توجيهات مفيدة للطلبة حول كيفية الاستعداد للامتحانات وبناء مسارهم
-              المهني.
+              المواضيع الأساسية والمتقدمة.{"\n"}- ملخصات ومذكرات محتوى مختصر
+              يسهّل مراجعة المعلومات المهمة.{"\n"}- نصائح وإرشادات: توجيهات
+              مفيدة للطلبة حول كيفية الاستعداد للامتحانات وبناء مسارهم المهني.
             </Text>
           </View>
 
@@ -99,16 +104,15 @@ export default function AboutUsScreen() {
             </TouchableOpacity>
           </View>
         </View>
-
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#CBCBFF",
+    backgroundColor: "#000",
   },
   sect: {
     paddingHorizontal: 20,
@@ -137,7 +141,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   footer: {
-    height: 150,
+    height: 300,
     backgroundColor: "#333",
     flexDirection: "column",
     justifyContent: "center",
@@ -152,6 +156,8 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   contactWrapper: {
+    width: "auto",
+    alignSelf: "flex-start",
     marginVertical: 7,
   },
   contactText: {

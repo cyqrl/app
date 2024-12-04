@@ -7,13 +7,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Link } from "expo-router";
+
 export default function AboutUsScreen() {
   return (
     <View style={styles.container}>
-      {/* محتوى الصفحة القابل للتمرير */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.sect}>
-          {/* قسم من نحن */}
+          {/* About Us section   */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>من نحن</Text>
             <Text style={styles.sectionText}>
@@ -24,7 +27,7 @@ export default function AboutUsScreen() {
             </Text>
           </View>
 
-          {/* قسم رسالتنا */}
+          {/* Our Mission section  */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>رسالتنا</Text>
             <Text style={styles.sectionText}>
@@ -34,7 +37,7 @@ export default function AboutUsScreen() {
             </Text>
           </View>
 
-          {/* قسم رؤيتنا */}
+          {/* Our Vision section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>رؤيتنا</Text>
             <Text style={styles.sectionText}>
@@ -43,21 +46,21 @@ export default function AboutUsScreen() {
             </Text>
           </View>
 
-          {/* قسم ماذا نقدم */}
+          {/* What We Offer section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>ماذا نقدم؟</Text>
             <Text style={styles.sectionText}>
-              - **امتحانات سابقة**: مجموعة شاملة من الامتحانات لتدريب الطلبة على
-              مختلف الأنماط والأسئلة.{"\n"}- **أوراق عمل**: تمارين عملية تغطي
-              المواضيع الأساسية والمتقدمة.{"\n"}- **ملخصات ومذكرات**: محتوى
-              مختصر يسهّل مراجعة المعلومات المهمة.{"\n"}- **نصائح وإرشادات**:
+              - امتحانات سابقة: مجموعة شاملة من الامتحانات لتدريب الطلبة على
+              مختلف الأنماط والأسئلة.{"\n"}- أوراق عمل تمارين عملية تغطي
+              المواضيع الأساسية والمتقدمة.{"\n"}- ملخصات ومذكرات محتوى
+              مختصر يسهّل مراجعة المعلومات المهمة.{"\n"}- نصائح وإرشادات:
               توجيهات مفيدة للطلبة حول كيفية الاستعداد للامتحانات وبناء مسارهم
               المهني.
             </Text>
           </View>
 
-          {/* قسم لماذا نحن */}
-          <View style={styles.section}>
+          {/* Why Us section */}
+          <View style={styles.lastsection}>
             <Text style={styles.sectionTitle}>لماذا نحن؟</Text>
             <Text style={styles.sectionText}>
               - تصميم بسيط وسهل الاستخدام.{"\n"}- محتوى محدث يلبي احتياجات
@@ -67,72 +70,96 @@ export default function AboutUsScreen() {
             </Text>
           </View>
         </View>
-        {/* التذييل */}
+
+        {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>تواصل معنا:</Text>
-          <TouchableOpacity>
-            <Text style={styles.contactText}>📧 support@eduapp.com</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.contactText}>📞 +123 456 789</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Link href="https://www.eschool.edu.ps">
-              <Text style={styles.contactText}>🌐 بيئة التواصل الالكتروني المدرسي</Text>
-            </Link>
-          </TouchableOpacity>
+
+          <View style={styles.contactWrapper}>
+            <TouchableOpacity>
+              <Link href="mailto:">
+                <Text style={styles.contactText}>📧 Ind-Por@edu.com</Text>
+              </Link>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.contactWrapper}>
+            <TouchableOpacity>
+              <Link href="tel:">
+                <Text style={styles.contactText}>📞 +970 123456789</Text>
+              </Link>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.contactWrapper}>
+            <TouchableOpacity>
+              <Link href="https://www.eschool.edu.ps">
+                <Text style={styles.contactText}>🌐 eschool</Text>
+              </Link>
+            </TouchableOpacity>
+          </View>
         </View>
+
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#CBCBFF",
+  },
   sect: {
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#ccccff",
+  lastsection: {
+    marginBottom: 20,
   },
   section: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#292966",
     marginBottom: 20,
+    paddingBottom: 15,
   },
   sectionTitle: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#ffffff",
-    marginBottom: 10,
-    textAlign: "right", // الكتابة من اليمين
+    color: "#3d3d40",
+    marginBottom: 20,
+    textAlign: "right",
   },
   sectionText: {
     fontSize: 20,
-    color: "#ffffff",
+    color: "#3d3d40",
     lineHeight: 24,
-    textAlign: "right", // الكتابة من اليمين
+    textAlign: "right",
   },
   footer: {
-    height: 80,
+    height: 150,
     backgroundColor: "#333",
+    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#444",
+    textAlign: "right",
+    paddingHorizontal: 20,
   },
   footerText: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#fff",
-    textAlign: "right",
     fontWeight: "bold",
-    marginBottom: 5,
+    marginBottom: 10,
+    textAlign: "right",
+  },
+  contactWrapper: {
+    marginVertical: 7,
   },
   contactText: {
-    textAlign: "right",
-    fontSize: 14,
+    fontSize: 16,
     color: "#ddd",
+    textAlign: "right",
   },
   scrollContent: {
     flexGrow: 1,
-  }
+  },
 });

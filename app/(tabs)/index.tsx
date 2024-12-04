@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import { StyleSheet, View, Text, Dimensions, Animated } from "react-native";
+import { StyleSheet, View, Text, Dimensions, Animated, Image } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+
 
 const { width } = Dimensions.get("window");
 
@@ -37,15 +38,39 @@ const Index = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image
+          source={require('@/assets/images/pal.png')}
+          style={styles.topImage1}
+          resizeMode="contain"
+        />
+        <Image
+          source={require('@/assets/images/injaz.png')}
+          style={styles.topImage2}
+          resizeMode="contain"
+        />
+        <Image
+          source={require('@/assets/images/jiss_school.png')}
+          style={styles.topImage3}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require('@/assets/images/Industry_Portal_logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
       <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.hero}>
-        <Text style={styles.title}>أهلا وسهلا بكم {"\n"} في بوابة الصناعي</Text>
+        <Text style={styles.title}>مرحبا بكم {"\n"} في بوابة الصناعي</Text>
         <Svg
           width={width}
           height={150}
           viewBox={`0 0 ${width} 150`}
           style={styles.svg}
         >
-          <AnimatedPath d={wavePath} fill="#ccccff" />
+          <AnimatedPath d={wavePath} fill="#CBCBFF" />
         </Svg>
       </LinearGradient>
       <View style={styles.buttons}>
@@ -69,12 +94,48 @@ const AnimatedPath = Animated.createAnimatedComponent(Path);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ccccff",
+    backgroundColor: "#CBCBFF",
+  },
+  imageContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 20,
+    flexDirection: 'row',
+  },
+  topImage1: {
+    width: 60,
+    height: 60,
+    marginLeft: 10,
+  },
+  topImage2: {
+    width: 90,
+    height: 90,
+    marginLeft: -20,
+    marginTop: -10,
+  },
+  topImage3: {
+    width: 50,
+    height: 50,
+    marginLeft: -20,
+    marginTop: 6,
+  },
+  logoContainer:{
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 20,
+    flexDirection: 'row',
+  },
+  logo : {
+    width: 95,
+    height : 95,
+    marginTop: -10,
+    marginRight: -25,
   },
   hero: {
     paddingHorizontal: 10,
     flex: 1,
-
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
@@ -89,7 +150,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#fff",
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 70,

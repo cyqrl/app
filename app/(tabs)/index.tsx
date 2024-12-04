@@ -62,7 +62,7 @@ const Index = () => {
           viewBox={`0 0 ${width} 150`}
           style={styles.svg}
         >
-          <AnimatedPath d={wavePath} fill="#e6e6ff" />
+          <AnimatedPath d={wavePath} fill="#e5e5ff" />
         </Svg>
       </LinearGradient>
       <View style={styles.buttons}>
@@ -97,10 +97,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   logo: {
-    width: 95,
-    height: 95,
-    marginTop: -10,
-    marginRight: -25,
+    width: 120,
+    height: 120,
+    marginTop: -5,
+    marginRight: -20,
   },
   hero: {
     paddingHorizontal: 10,

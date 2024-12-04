@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import { Linking } from "react-native";
 
 export default function AboutUsScreen() {
   return (
@@ -84,39 +85,43 @@ export default function AboutUsScreen() {
                 <Text style={styles.footerText}>تواصل معنا:</Text>
 
                 <View style={styles.contactWrapper}>
-                  <TouchableOpacity>
-                    <Link href="mailto:industryportalhub@gmail.com">
-                      <Text style={styles.contactText}>📧 Ind-Por@edu.com</Text>
-                    </Link>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL("mailto:industryportalhub@gmail.com")
+                    }
+                  >
+                    <Text style={styles.contactText}>📧 Ind-Por@edu.com</Text>
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.contactWrapper}>
-                  <TouchableOpacity>
-                    <Link href="tel:+970123456789">
-                      <Text style={styles.contactText}>📞 +970 123456789</Text>
-                    </Link>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL("tel:+970123456789")}
+                  >
+                    <Text style={styles.contactText}>📞 +970 123456789</Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <View>
-                <Text style={{ ...styles.footerText }}> روابط مهمة:</Text>
+                <Text style={styles.footerText}> روابط مهمة:</Text>
 
                 <View style={styles.contactWrapper}>
-                  <TouchableOpacity>
-                    <Link href="https://www.moe.edu.ps/">
-                      <Text style={styles.contactText}>
-                        📚 Ministry of Education
-                      </Text>
-                    </Link>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL("https://www.moe.edu.ps/")}
+                  >
+                    <Text style={styles.contactText}>
+                      📚 Ministry of Education
+                    </Text>
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.contactWrapper}>
-                  <TouchableOpacity>
-                    <Link href="https://www.eschool.edu.ps">
-                      <Text style={styles.contactText}>🏤 eschool</Text>
-                    </Link>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL("https://www.eschool.edu.ps")
+                    }
+                  >
+                    <Text style={styles.contactText}>🏤 eschool</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -124,21 +129,39 @@ export default function AboutUsScreen() {
 
             {/* Logos below footer content */}
             <View style={styles.imageContainer}>
-              <Image
-                source={require("@/assets/images/pal.png")}
-                style={styles.topImage1}
-                resizeMode="contain"
-              />
-              <Image
-                source={require("@/assets/images/injaz.png")}
-                style={styles.topImage2}
-                resizeMode="contain"
-              />
-              <Image
-                source={require("@/assets/images/jiss_school.png")}
-                style={styles.topImage3}
-                resizeMode="contain"
-              />
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL("https://www.facebook.com/jenindirectorate")
+                }
+              >
+                <Image
+                  source={require("@/assets/images/pal.png")}
+                  style={styles.topImage1}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => Linking.openURL("https://injaz-pal.org")}
+              >
+                <Image
+                  source={require("@/assets/images/injaz.png")}
+                  style={styles.topImage2}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.facebook.com/profile.php?id=100063647675969"
+                  )
+                }
+              >
+                <Image
+                  source={require("@/assets/images/jiss.png")}
+                  style={styles.topImage3}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -158,22 +181,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   topImage1: {
-    width: 90,
-    height: 90,
-    marginLeft: 10,
-    marginTop: 20,
+    width: 130,
+    height: 130,
+    marginTop: -5,
   },
   topImage2: {
     width: 120,
     height: 120,
-    marginLeft: -20,
-    marginTop: 10,
+    marginLeft: -40,
   },
   topImage3: {
     width: 70,
     height: 70,
     marginLeft: -20,
-    marginTop: 30,
+    marginTop: 20,
   },
   sect: {
     paddingHorizontal: 20,

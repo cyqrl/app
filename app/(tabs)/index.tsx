@@ -47,23 +47,6 @@ const Index = () => {
       colors={["rgb(203, 203, 255)", "rgb(255, 255, 255)"]}
       style={styles.container}
     >
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("@/assets/images/pal.png")}
-          style={styles.topImage1}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("@/assets/images/injaz.png")}
-          style={styles.topImage2}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("@/assets/images/jiss_school.png")}
-          style={styles.topImage3}
-          resizeMode="contain"
-        />
-      </View>
       <View style={styles.logoContainer}>
         <Image
           source={require("@/assets/images/Industry_Portal_logo.png")}
@@ -105,30 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundImage:
       "linear-gradient(to bottom, rgb(203, 203, 255), rgb(255, 255, 255) 80%);",
-  },
-  imageContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    zIndex: 20,
-    flexDirection: "row",
-  },
-  topImage1: {
-    width: 60,
-    height: 60,
-    marginLeft: 10,
-  },
-  topImage2: {
-    width: 90,
-    height: 90,
-    marginLeft: -20,
-    marginTop: -10,
-  },
-  topImage3: {
-    width: 50,
-    height: 50,
-    marginLeft: -20,
-    marginTop: 6,
   },
   logoContainer: {
     position: "absolute",

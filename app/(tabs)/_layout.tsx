@@ -1,25 +1,43 @@
-import { Tabs } from "expo-router";
-import React from "react";
-import { View, Image, StyleSheet, Text } from "react-native";
+import { Tabs, router } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { selectedSubject } from "./first";
 
 const c = "#fff";
 
 export default function TabLayout() {
+  const [currentSubject, setCurrentSubject] = useState(selectedSubject);
+  const [showBackButton, setShowBackButton] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (selectedSubject !== currentSubject) {
+        setCurrentSubject(selectedSubject);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [currentSubject]);
+
+
   return (
     <Tabs
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: true,
         headerStyle: {
-          height: 90,
-          backgroundColor: "black",
+          height: 60,
+          backgroundColor: "rgba(33, 150, 243, 0.95)",
+          elevation: 0,
+          borderBottomWidth: 0,
         },
         headerTitleStyle: {
           color: "#FFFFFF",
           fontSize: 20,
         },
         headerTitleAlign: "center",
+        
         tabBarStyle: {
-          height: 80,
+          height: 70,
           backgroundColor: "transparent",
           elevation: 0,
           borderTopWidth: 0,
@@ -28,13 +46,13 @@ export default function TabLayout() {
           <View
             style={{
               height: 80,
-              backgroundColor: "#292966",
+              backgroundColor: "rgba(27, 128, 211, 0.95)",
               justifyContent: "center",
               alignItems: "center",
             }}
           />
         ),
-      }}
+      })}
     >
       <Tabs.Screen
         name="index"
@@ -57,57 +75,54 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Contact Tab */}
       <Tabs.Screen
-        name="Contact"
+        name="second"
         options={{
-          title: "من نحن",
+          title: "ثاني ثانوي",
           tabBarLabel: ({ focused }) => (
             <View style={styles.labelContainer}>
               <Text style={[styles.tabLabel, focused && styles.activeTabLabel]}>
-                من نحن
+                ثاني ثانوي
               </Text>
               {focused && <View style={styles.underline} />}
             </View>
           ),
           tabBarIcon: () => (
             <Image
-              source={require("@/assets/images/send.png")}
-              style={{ width: 30, height: 30 }}
+              source={require("@/assets/images/second.png")}
+              style={{ width: 40, height: 40 }}
             />
           ),
         }}
       />
 
-      {/* Achievements Tab */}
       <Tabs.Screen
-        name="Achievements"
+        name="first"
         options={{
-          title: "إنجازات",
+          title: currentSubject,
           tabBarLabel: ({ focused }) => (
             <View style={styles.labelContainer}>
               <Text style={[styles.tabLabel, focused && styles.activeTabLabel]}>
-                إنجازات
+                أول ثانوي
               </Text>
               {focused && <View style={styles.underline} />}
             </View>
           ),
           tabBarIcon: () => (
             <Image
-              source={require("@/assets/images/medals.png")}
+              source={require("@/assets/images/first.png")}
               style={{ width: 35, height: 35 }}
             />
           ),
         }}
       />
 
-      {/* Hidden Tab */}
       <Tabs.Screen
-        name="first"
+        name="Achievements"
         options={{ tabBarItemStyle: { display: "none" } }}
       />
       <Tabs.Screen
-        name="second"
+        name="Contact"
         options={{ tabBarItemStyle: { display: "none" } }}
       />
     </Tabs>
@@ -129,9 +144,17 @@ const styles = StyleSheet.create({
   },
   underline: {
     position: "absolute",
-    bottom: -10,
+    bottom: -8,
     width: "110%",
     height: 2,
     backgroundColor: c,
+  },
+  backButton: {
+    paddingLeft: 15,
+    paddingRight: 20,
+  },
+  backButtonText: {
+    color: c,
+    fontSize: 24,
   },
 });

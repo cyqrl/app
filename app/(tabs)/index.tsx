@@ -1,160 +1,273 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
-  StyleSheet,
-  View,
-  Text,
   Dimensions,
-  Animated,
-  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
 } from "react-native";
-import Svg, { Path } from "react-native-svg";
-import { Link } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
 
-const { width } = Dimensions.get("window");
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  FadeIn,
+  SlideInDown,
+  SlideInUp,
+  FadeInRight,
+  FadeInLeft,
+  withRepeat,
+} from "react-native-reanimated";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Link, router } from "expo-router";
+const { width, height } = Dimensions.get("window");
+const isTablet = width >= 768;
 
-const Index = () => {
-  const animatedValue = useRef(new Animated.Value(0)).current;
+const HomeScreen = () => {
+  const floatAnim = useSharedValue(0);
 
   useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(animatedValue, {
-          toValue: 1,
-          duration: 3000,
-          useNativeDriver: false,
-        }),
-        Animated.timing(animatedValue, {
-          toValue: 0,
-          duration: 2500,
-          useNativeDriver: false,
-        }),
-      ])
-    ).start();
-  }, [animatedValue]);
+    floatAnim.value = withRepeat(withTiming(-10, { duration: 1000 }), -1, true);
+  }, []);
 
-  // Interpolating the animation to affect the wave height
-  const wavePath = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [
-      `M0,50 C${width},100 ${width},30 ${width * 10},50 L${width},150 L0,150 Z`,
-      `M2,60 C${0},72 ${0},-10 ${width * 10},50 L${width * 5},150 L0,150 Z`,
-    ],
-  });
+  const floatingButtonStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: floatAnim.value }],
+  }));
+
+  const handleAchievements = () => {
+    Alert.alert("الإنجازات", "قائمة إنجازات الطلاب ستظهر هنا!");
+  };
+
+  // Responsive design values
+  const responsive = {
+    titleSize: isTablet ? 32 : 26,
+    subtitleSize: isTablet ? 22 : 18,
+    sectionPadding: isTablet ? 25 : 20,
+    iconSize: isTablet ? 34 : 28,
+  };
 
   return (
-    <LinearGradient
-      colors={["rgb(203, 203, 255)", "rgb(255, 255, 255)"]}
-      style={styles.container}
-    >
-      <View style={styles.logoContainer}>
-        <Image
-          source={require("@/assets/images/Industry_Portal_logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
-      <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.hero}>
-        <Text style={styles.title}>مرحبا بكم {"\n"} في بوابة الصناعي</Text>
-        <Svg
-          width={width}
-          height={150}
-          viewBox={`0 0 ${width} 150`}
-          style={styles.svg}
+    <GestureHandlerRootView style={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {/* Hero Section */}
+        <Animated.View
+          entering={SlideInUp.duration(800)}
+          style={[styles.hero, isTablet && styles.heroTablet]}
         >
-          <AnimatedPath d={wavePath} fill="#e5e5ff" />
-        </Svg>
-      </LinearGradient>
-      <View style={styles.buttons}>
-        <LinearGradient colors={["#292966", "#5c5c99"]} style={styles.button}>
-          <Link style={styles.link} href={"/(tabs)/first"}>
-            <Text style={styles.buttonText}>الأول ثانوي</Text>
-          </Link>
-        </LinearGradient>
-        <LinearGradient colors={["#5c5c99", "#292966"]} style={styles.button}>
-          <Link style={styles.link} href={"./second"}>
-            <Text style={styles.buttonText}>الثاني ثانوي</Text>
-          </Link>
-        </LinearGradient>
-      </View>
-    </LinearGradient>
+          <Text style={[styles.title, { fontSize: responsive.titleSize }]}>
+            أكاديمية المستقبل المهنية
+          </Text>
+          <Text
+            style={[styles.subtitle, { fontSize: responsive.subtitleSize }]}
+          >
+            نحو تأهيل مهني متميز وتطوير مستدام
+          </Text>
+        </Animated.View>
+
+        {/* Content Sections */}
+        <View style={styles.contentContainer}>
+          <Animated.View entering={FadeInRight.delay(200)}>
+            <SectionCard
+              title="مرحبًا بكم في أكاديمية المستقبل"
+              content="منصة تعليمية متكاملة تجمع بين التميز الأكاديمي والتدريب المهني العمقي، نسعى لبناء جيل قادر على مواكبة متطلبات سوق العمل الحديث."
+              color="#2196F3"
+              responsive={responsive}
+            />
+          </Animated.View>
+
+          <Animated.View entering={FadeInLeft.delay(400)}>
+            <SectionCard
+              title="من نحن؟"
+              content="مؤسسة تعليمية رائدة تأسست عام 2010، نخصص في تقديم برامج تدريبية مهنية وأكاديمية معتمدة بالشراكة مع كبرى الشركات الصناعية."
+              color="#00BCD4"
+              responsive={responsive}
+            />
+          </Animated.View>
+
+          <Animated.View entering={FadeInRight.delay(600)}>
+            <SectionCard
+              title="ما نقدمه"
+              content={[
+                "• برامج تدريب مهني متخصصة",
+                "• شهادات معتمدة دوليًا",
+                "• تدريب عملي في المصانع والشركات",
+                "• تأهيل للتوظيف بمجال التخصص",
+              ]}
+              color="#2196F3"
+              responsive={responsive}
+              list
+            />
+          </Animated.View>
+
+          <Animated.View entering={FadeInLeft.delay(800)}>
+            <SectionCard
+              title="لماذا التعليم المهني؟"
+              content={[
+                "1. تلبية احتياجات سوق العمل الفعلية",
+                "2. تطوير المهارات التقنية والعملية",
+                "3. فرص وظيفية أفضل مع شهادات معتمدة",
+                "4. دعم ريادة الأعمال والمشاريع الصغيرة",
+              ]}
+              color="#4CAF50"
+              responsive={responsive}
+              list
+            />
+          </Animated.View>
+        </View>
+      </ScrollView>
+
+      {/* Floating Action Button */}
+      <Animated.View
+        style={[styles.fab, floatingButtonStyle]}
+        entering={FadeIn.delay(1000)}
+      >
+        <Link href="/Achievements" asChild>
+          <TouchableOpacity style={styles.fabButton} activeOpacity={0.9}>
+            <MaterialCommunityIcons
+              name="trophy"
+              size={responsive.iconSize}
+              color="white"
+            />
+            <Text style={styles.fabText}>الإنجازات</Text>
+          </TouchableOpacity>
+        </Link>
+      </Animated.View>
+    </GestureHandlerRootView>
   );
 };
+type SectionCardProps = {
+  title: string;
+  content: string | string[];
+  color: string;
+  responsive: {
+    sectionPadding: number;
+  };
+  list?: boolean;
+};
 
-const AnimatedPath = Animated.createAnimatedComponent(Path);
+const SectionCard: React.FC<SectionCardProps> = ({
+  title,
+  content,
+  color,
+  responsive,
+  list = false,
+}) => (
+  <View style={[styles.section, { padding: responsive.sectionPadding }]}>
+    <Text style={[styles.sectionTitle, { color }]}>{title}</Text>
+    {Array.isArray(content) ? (
+      content.map((item, index) => (
+        <Text key={index} style={[styles.sectionText, list && styles.listItem]}>
+          {item}
+        </Text>
+      ))
+    ) : (
+      <Text style={styles.sectionText}>{content}</Text>
+    )}
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundImage:
-      "linear-gradient(to bottom, rgb(203, 203, 255), rgb(255, 255, 255) 80%);",
+    backgroundColor: "#F5F5F5",
   },
-  logoContainer: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    zIndex: 20,
-    flexDirection: "row",
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    marginTop: -5,
-    marginRight: -20,
+  scrollContent: {
+    paddingBottom: 100,
   },
   hero: {
-    paddingHorizontal: 10,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative",
-    top: -6,
-    overflow: "hidden",
+    backgroundColor: "#2196F3",
+    paddingVertical: 40,
+    paddingHorizontal: 25,
+    marginBottom: 30,
+    borderBottomEndRadius: 40,
+    borderBottomStartRadius: 40,
   },
-  svg: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+  heroTablet: {
+    paddingVertical: 60,
+    marginHorizontal: width * 0.1,
+    borderRadius: 40,
+    marginTop: 30,
   },
   title: {
-    color: "#fff",
-    fontSize: 40,
+    color: "white",
     fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 70,
-    justifyContent: "center",
-    zIndex: 10,
+    textAlign: "right",
+    fontFamily: "NotoArabic-Regular",
+    lineHeight: 38,
   },
-  buttons: {
-    position: "relative",
-    top: -20,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  subtitle: {
+    color: "rgba(255,255,255,0.9)",
+    textAlign: "right",
+    marginTop: 15,
+    fontFamily: "NotoArabic-Regular",
+    lineHeight: 24,
   },
-  button: {
-    width: "60%",
-    height: 120,
-    borderRadius: 10,
-    marginBottom: 50,
-    justifyContent: "center",
-    alignItems: "center",
+  contentContainer: {
+    paddingHorizontal: width * 0.05,
+    marginTop: 20,
   },
-  link: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "flex",
-    padding: 17,
+  section: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    elevation: 3,
   },
-  buttonText: {
-    fontSize: 40,
+  sectionTitle: {
+    fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
-    textAlign: "center",
+    marginBottom: 15,
+    fontFamily: "NotoArabic-Regular",
+    textAlign: "right",
+  },
+  sectionText: {
+    color: "#212121",
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: "right",
+    fontFamily: "NotoArabic-Regular",
+    marginBottom: 8,
+  },
+  listItem: {
+    backgroundColor: "#F8F9FA",
+    padding: 12,
+    borderRadius: 8,
+    marginVertical: 5,
+  },
+  fab: {
+    position: "absolute",
+    bottom: 40,
+    alignSelf: "center",
+    backgroundColor: "#4CAF50",
+    borderRadius: 30,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+  },
+  fabButton: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  fabText: {
+    color: "white",
+    fontSize: 18,
+    marginRight: 10,
+    fontFamily: "NotoArabic-Regular",
+    fontWeight: "700",
   },
 });
 
-export default Index;
+export default HomeScreen;

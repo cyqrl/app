@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  Image,
 } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -15,14 +16,14 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   FadeIn,
-  SlideInDown,
   SlideInUp,
   FadeInRight,
   FadeInLeft,
   withRepeat,
 } from "react-native-reanimated";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
+
 const { width, height } = Dimensions.get("window");
 const isTablet = width >= 768;
 
@@ -36,10 +37,6 @@ const HomeScreen = () => {
   const floatingButtonStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: floatAnim.value }],
   }));
-
-  const handleAchievements = () => {
-    Alert.alert("الإنجازات", "قائمة إنجازات الطلاب ستظهر هنا!");
-  };
 
   // Responsive design values
   const responsive = {
@@ -60,22 +57,28 @@ const HomeScreen = () => {
           entering={SlideInUp.duration(800)}
           style={[styles.hero, isTablet && styles.heroTablet]}
         >
-          <Text style={[styles.title, { fontSize: responsive.titleSize }]}>
-            أكاديمية المستقبل المهنية
-          </Text>
-          <Text
-            style={[styles.subtitle, { fontSize: responsive.subtitleSize }]}
-          >
-            نحو تأهيل مهني متميز وتطوير مستدام
-          </Text>
+          <Image
+            source={require("@/assets/images/logo.png")}
+            style={{ width: 120, height: 120 }}
+          />
+          <View>
+            <Text style={[styles.title, { fontSize: responsive.titleSize }]}>
+              بوابة الفرع الصناعي
+            </Text>
+            <Text
+              style={[styles.subtitle, { fontSize: responsive.subtitleSize }]}
+            >
+              تطبيق تعليمي متكامل لطلبة الفرع الصناعي
+            </Text>
+          </View>
         </Animated.View>
 
         {/* Content Sections */}
         <View style={styles.contentContainer}>
           <Animated.View entering={FadeInRight.delay(200)}>
             <SectionCard
-              title="مرحبًا بكم في أكاديمية المستقبل"
-              content="منصة تعليمية متكاملة تجمع بين التميز الأكاديمي والتدريب المهني العمقي، نسعى لبناء جيل قادر على مواكبة متطلبات سوق العمل الحديث."
+              title="حول المبادرة"
+              content="تطوير تطبيق تعليمي يوفر كتبًا، نماذج تدريبية، امتحانات وزارية وحلولها، ومقاطع توضيحية للمواد التخصصية بهدف تحسين جودة التعليم."
               color="#2196F3"
               responsive={responsive}
             />
@@ -83,21 +86,20 @@ const HomeScreen = () => {
 
           <Animated.View entering={FadeInLeft.delay(400)}>
             <SectionCard
-              title="من نحن؟"
-              content="مؤسسة تعليمية رائدة تأسست عام 2010، نخصص في تقديم برامج تدريبية مهنية وأكاديمية معتمدة بالشراكة مع كبرى الشركات الصناعية."
-              color="#00BCD4"
+              title="الشركاء في التنفيذ"
+              content="مدرسة جنين الثانوية الصناعية، مؤسسة إنجاز، وزارة الاتصالات، والمدارس الصناعية في الوطن."
+              color="#2196F3"
               responsive={responsive}
             />
           </Animated.View>
 
           <Animated.View entering={FadeInRight.delay(600)}>
             <SectionCard
-              title="ما نقدمه"
+              title="الفئات المستهدفة"
               content={[
-                "• برامج تدريب مهني متخصصة",
-                "• شهادات معتمدة دوليًا",
-                "• تدريب عملي في المصانع والشركات",
-                "• تأهيل للتوظيف بمجال التخصص",
+                "• طلاب الفرع الصناعي",
+                "• المعلمون والمهندسون في المدارس الصناعية",
+                "• الطلاب المقبلون على الفرع الصناعي",
               ]}
               color="#2196F3"
               responsive={responsive}
@@ -107,14 +109,13 @@ const HomeScreen = () => {
 
           <Animated.View entering={FadeInLeft.delay(800)}>
             <SectionCard
-              title="لماذا التعليم المهني؟"
+              title="أثر المبادرة"
               content={[
-                "1. تلبية احتياجات سوق العمل الفعلية",
-                "2. تطوير المهارات التقنية والعملية",
-                "3. فرص وظيفية أفضل مع شهادات معتمدة",
-                "4. دعم ريادة الأعمال والمشاريع الصغيرة",
+                "1. تسهيل الدراسة اليومية والاستعداد للامتحانات.",
+                "2. تحسين جودة التعليم من خلال مصادر موثوقة.",
+                "3. تعزيز الوعي بأهمية القطاع الصناعي في دعم الاقتصاد.",
               ]}
-              color="#4CAF50"
+              color="#2196F3"
               responsive={responsive}
               list
             />
@@ -134,13 +135,14 @@ const HomeScreen = () => {
               size={responsive.iconSize}
               color="white"
             />
-            <Text style={styles.fabText}>الإنجازات</Text>
+            <Text style={styles.fabText}>الانجازات </Text>
           </TouchableOpacity>
         </Link>
       </Animated.View>
     </GestureHandlerRootView>
   );
 };
+
 type SectionCardProps = {
   title: string;
   content: string | string[];
@@ -187,6 +189,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     borderBottomEndRadius: 40,
     borderBottomStartRadius: 40,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   heroTablet: {
     paddingVertical: 60,
@@ -244,18 +249,14 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   fab: {
-    position: "absolute",
-    bottom: 40,
+    position: "relative",
+    bottom: 20,
     alignSelf: "center",
     backgroundColor: "#4CAF50",
     borderRadius: 30,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
   },
   fabButton: {
     flexDirection: "row",
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
   },
   fabText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
     marginRight: 10,
     fontFamily: "NotoArabic-Regular",
     fontWeight: "700",

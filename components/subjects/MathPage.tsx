@@ -2,19 +2,29 @@ import React from "react";
 import PdfViewer from "./PdfViewer";
 
 const MathPage = () => {
-  // Sample exam papers (replace with actual URLs)
+
   const examPdfs = [
     {
       id: "1",
-      name: "2023 Calculus Final Exam",
-      uri: "https://drive.google.com/file/d/1FDUHVeiEjia3X7GXIzulYo-C0skQKm6o/view",
+      name: "امتحان يومي اول للفصل الثاني",
+      uri: "https://drive.google.com/file/d/1dY4nR7t8HkL2jF9G3hJ5D6sQ2Z3x4VbM/view",
     },
     {
       id: "2",
-      name: "Linear Algebra Midterm Solutions",
+      name: "امتحان نصف الفصل الاول",
+      uri: "https://www.wepal.net/library/upload/12-2019/content/5e012f5710d5a.pdf",
+    },
+    {
+      id: "3",
+      name: "امتحان يومي ثاني للفصل الاول",
       uri: "https://drive.google.com/file/d/1dY4nR7t8HkL2jF9G3hJ5D6sQ2Z3x4VbM/view",
     },
-    // Add 8 more exams...
+    {
+      id: "4",
+      name: "امتحان نهائي للفصل الاول",
+      uri: "https://drive.google.com/file/d/1dY4nR7t8HkL2jF9G3hJ5D6sQ2Z3x4VbM/view",
+    },
+   
   ];
 
   // Sample study materials
@@ -34,7 +44,7 @@ const MathPage = () => {
 
   return (
     <PdfViewer
-      subjectName="Advanced Mathematics"
+      subjectName="الرياضيات"
       examPdfs={examPdfs}
       attachmentPdfs={attachmentPdfs}
     />

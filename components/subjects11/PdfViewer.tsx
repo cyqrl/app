@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     color: '#2196F3',
     marginVertical: 20,
     top: 70,
-    right: -120,
-    zIndex: 1000,
+    right: 0,
+    zIndex: 100,
   },
   container: {
     flex: 1,

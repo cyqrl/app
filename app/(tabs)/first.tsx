@@ -37,7 +37,7 @@ const HomeScreen = () => {
       "مباني ذكية",
       "ميكانيك سيارات",
       "نجارة",
-      "رسم"
+      "رسم صناعي"
     ],
   };
 
@@ -142,7 +142,7 @@ const HomeScreen = () => {
         setCurrentPage("mechanics");
       } else if (selectedSubject === "نجارة") {
         setCurrentPage("carpentry");
-      } else if (selectedSubject === "رسم") {
+      } else if (selectedSubject === "رسم صناعي") {
         setCurrentPage("drawing");
       }
     }

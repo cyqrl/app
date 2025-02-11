@@ -132,13 +132,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   subjectTitle: {
-    fontSize: 35,
+    fontSize: 25,
     fontWeight: 'bold',
     color: '#2196F3',
     marginVertical: 20,
-    top: 70,
+    top: 55,
     right: -120,
-    zIndex: 1000,
+    width: "100%",
+    backgroundColor: 'white',
+    zIndex: 100,
   },
   container: {
     flex: 1,
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    maxWidth: Dimensions.get("window").width > 768 ? "30%" : "100%",
+    maxWidth: "100%",
   },
   pdfIconContainer: {
     marginBottom: 8,

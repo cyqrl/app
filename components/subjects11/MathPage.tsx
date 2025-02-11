@@ -2,7 +2,6 @@ import React from "react";
 import PdfViewer from "./PdfViewer";
 
 const MathPage = () => {
-
   const examPdfs = [
     {
       id: "1",
@@ -24,10 +23,8 @@ const MathPage = () => {
       name: "امتحان نهائي للفصل الاول",
       uri: "https://drive.google.com/file/d/1dY4nR7t8HkL2jF9G3hJ5D6sQ2Z3x4VbM/view",
     },
-   
   ];
 
-  // Sample study materials
   const attachmentPdfs = [
     {
       id: "101",
@@ -39,7 +36,6 @@ const MathPage = () => {
       name: "Differential Equations Handbook",
       uri: "https://drive.google.com/file/d/1fR4t5Y6u7I8O9p0Q1w2E3rT4y5U6i7oP/view",
     },
-    // Add 8 more attachments...
   ];
 
   return (

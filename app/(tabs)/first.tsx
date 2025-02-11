@@ -1,10 +1,24 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import MathPage from "@/components/subjects/MathPage";
-import EnglishPage from "@/components/subjects/EnglishPage";
-import ArabicPage from "@/components/subjects/ArabicPage";
-import ReligionPage from "@/components/subjects/ReligionPage";
-import nextItem from "@/components/subjects/nextItem";
+import MathPage from "@/components/subjects11/MathPage";
+import EnglishPage from "@/components/subjects11/EnglishPage";
+import ArabicPage from "@/components/subjects11/ArabicPage";
+import ReligionPage from "@/components/subjects11/ReligionPage";
+import ITPage from "@/components/subjects11/ITPage";
+import PhysicsPage from "@/components/subjects11/PhysicsPage";
+import GraphicPage from "@/components/subjects11/GraphicPage";
+import WebsitesPage from "@/components/subjects11/WebsitesPage";
+import RefrigerationPage from "@/components/subjects11/RefrigerationPage";
+import SanitaryPage from "@/components/subjects11/SanitaryPage";
+import BlacksmithingPage from "@/components/subjects11/BlacksmithingPage";
+import EnergyPage from "@/components/subjects11/EnergyPage";
+import UseElectricityPage from "@/components/subjects11/UseElectricityPage";
+import CarsElectricityPage from "@/components/subjects11/CarsElectricityPage";
+import SmartHomesPage from "@/components/subjects11/SmartHomesPage";
+import MechanicsPage from "@/components/subjects11/MechanicsPage";
+import CarpentryPage from "@/components/subjects11/CarpentryPage";
+import DrawingPage from "@/components/subjects11/DrawingPage";
+import nextItem from "@/components/subjects11/nextItem";
 
 import { generalStyles } from "./styles";
 export var selectedSubject = "أول ثانوي";
@@ -34,12 +48,46 @@ const HomeScreen = () => {
 
   const renderPage = () => {
     switch (currentPage) {
+
+      // Academic subjects
       case "math":
         return <MathPage />;
       case "english":
         return <EnglishPage />;
       case "arabic":
         return <ArabicPage />;
+      case "religion":
+        return <ReligionPage />;
+      case "IT":
+        return <ITPage />;
+      case "physics":
+        return <PhysicsPage />;
+
+      // Technical subjects
+      case "graphic":
+        return <GraphicPage />;
+      case "websites":
+        return <WebsitesPage />;
+      case "refrigeration":
+        return <RefrigerationPage />;
+      case "sanitary":
+        return <SanitaryPage />;
+      case "blacksmithing":
+        return <BlacksmithingPage />;
+      case "energy":
+        return <EnergyPage />;
+      case "use_electricity":
+        return <UseElectricityPage />;
+      case "cars_electricity":
+        return <CarsElectricityPage />;
+      case "smart_homes":
+        return <SmartHomesPage />;
+      case "mechanics":
+        return <MechanicsPage />;
+      case "carpentry":
+        return <CarpentryPage />;
+      case "drawing":
+        return <DrawingPage />;
       default:
         return null;
     }
@@ -67,9 +115,36 @@ const HomeScreen = () => {
         setCurrentPage("religion");
       } else if (selectedSubject === "تكنولوجيا المعلومات") {
         setCurrentPage("IT");
+      } else if (selectedSubject === "فيزياء") {
+        setCurrentPage("physics");
       }
     } else if (drawer === "drawer2") {
-      setCurrentPage("home");
+      selectedSubject = drawers.drawer2[index];
+      if (selectedSubject === "تصميم الجرافيكي") {
+        setCurrentPage("graphic");
+      } else if (selectedSubject === "صفحات الانترنت") {
+        setCurrentPage("websites");
+      } else if (selectedSubject === "تكييف وتبريد") {
+        setCurrentPage("refrigeration");
+      } else if (selectedSubject === "تمديدات صحية") {
+        setCurrentPage("sanitary");
+      } else if (selectedSubject === "حدادة") {
+        setCurrentPage("blacksmithing");
+      } else if (selectedSubject === "طاقة متجددة") {
+        setCurrentPage("energy");
+      } else if (selectedSubject === "كهرباء استعمال") {
+        setCurrentPage("use_electricity");
+      } else if (selectedSubject === "كهرباء سيارات") {
+        setCurrentPage("cars_electricity");
+      } else if (selectedSubject === "مباني ذكية") {
+        setCurrentPage("smart_homes");
+      } else if (selectedSubject === "ميكانيك سيارات") {
+        setCurrentPage("mechanics");
+      } else if (selectedSubject === "نجارة") {
+        setCurrentPage("carpentry");
+      } else if (selectedSubject === "رسم") {
+        setCurrentPage("drawing");
+      }
     }
   };
 
@@ -121,7 +196,6 @@ const HomeScreen = () => {
               <TouchableOpacity
                 onPress={() =>
                   handleDrawerNavigation("drawer1", selectedDrawer1)
-                  
                 }
                 style={generalStyles.button}
               >
@@ -206,12 +280,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dropdownButton: {
-    marginVertical: 20,
     padding: 10,
     backgroundColor: "#2196F3",
     borderRadius: 5,
-    position: "fixed",
-    top: 80,
+    position: "absolute",
+    top: 20,
     zIndex: 100,
   },
   dropdownText: {
@@ -227,9 +300,10 @@ const styles = StyleSheet.create({
     borderColor: "#BDBDBD",
     backgroundColor: "#FFFFFF",
     padding: 10,
-    marginVertical: 40,
+    marginVertical: 30,
     borderRadius: 5,
     width: "70%",
+    height: "30%",
   },
   arrow: {
     fontSize: 40,
@@ -237,17 +311,21 @@ const styles = StyleSheet.create({
   },
   drawerContent: {
     flex: 1,
-    fontSize: 35,
-    top: 30,
+    fontSize: 30,
+    top: 40,
     color: "#212121",
   },
+  
   actionButtonText: {
     color: "#FFFFFF",
     fontSize: 20,
     textAlign: "center",
   },
   pageContainer: {
+    flex: 1,
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   nextContainer: {
     flexDirection: "row",

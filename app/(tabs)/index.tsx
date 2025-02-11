@@ -59,7 +59,7 @@ const HomeScreen = () => {
         >
           <Image
             source={require("@/assets/images/logo.png")}
-            style={{ width: 120, height: 120 }}
+            style={{ width: 80, height: 80,  top:-10}}
           />
           <View>
             <Text style={[styles.title, { fontSize: responsive.titleSize }]}>

@@ -132,16 +132,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   subjectTitle: {
-    fontSize: 24,
+    fontSize: 35,
     fontWeight: 'bold',
     color: '#2196F3',
     marginVertical: 20,
+    top: 70,
+    right: -120,
+    zIndex: 1000,
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
+    flexWrap: "wrap",
   },
   contentContainer: {
     justifyContent: "center",
@@ -193,8 +197,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listContent: {
-    padding: 16,
-    paddingTop: 20,
+    top: 70,
   },
 });
 

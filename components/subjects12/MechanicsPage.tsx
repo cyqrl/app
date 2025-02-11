@@ -1,12 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const MathPage = () => {
+const MechanicsPage = () => {
   return (
-    
     <View style={styles.container}>
-      
-      <Text style={styles.text}>Welcome to the religion Page!</Text>
+      <Text style={styles.text}>Welcome to the Mechanics Page!</Text>
     </View>
   );
 };
@@ -19,8 +17,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    color: "#4196F3",
+    color: "#2196F3",
   },
 });
 
-export default MathPage;
+export default MechanicsPage;

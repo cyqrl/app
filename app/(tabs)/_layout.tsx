@@ -25,19 +25,19 @@ export default function TabLayout() {
       screenOptions={({ route }) => ({
         headerShown: true,
         headerStyle: {
-          height: 60,
+          height: 100,
           backgroundColor: "rgba(33, 150, 243, 0.95)",
           elevation: 0,
           borderBottomWidth: 0,
         },
         headerTitleStyle: {
           color: "#FFFFFF",
-          fontSize: 20,
+          fontSize: 25,
         },
         headerTitleAlign: "center",
         
         tabBarStyle: {
-          height: 70,
+          height: 80,
           backgroundColor: "transparent",
           elevation: 0,
           borderTopWidth: 0,

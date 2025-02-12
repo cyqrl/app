@@ -161,10 +161,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   reportSection: {
-    top: -40,
-    paddingTop: 80,
+    top: 0,
     padding: 20,
-    borderRadius: 40,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
     marginBottom: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
@@ -173,11 +173,11 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   reportTitle: {
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: "700",
     color: "#1976D2",
     textAlign: "center",
-    marginBottom: 50,
+    marginVertical: 50,
     fontFamily: "NotoArabic-Regular",
   },
   reportText: {

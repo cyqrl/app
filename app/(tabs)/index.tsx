@@ -43,7 +43,7 @@ const HomeScreen = () => {
     titleSize: isTablet ? 32 : 26,
     subtitleSize: isTablet ? 22 : 18,
     sectionPadding: isTablet ? 25 : 20,
-    iconSize: isTablet ? 34 : 28,
+    iconSize: isTablet ? 34 : 25,
   };
 
   return (
@@ -264,8 +264,8 @@ const styles = StyleSheet.create({
   },
   fabText: {
     color: "white",
-    fontSize: 16,
-    marginRight: 10,
+    fontSize: 15,
+    marginLeft: 5,
     fontFamily: "NotoArabic-Regular",
     fontWeight: "700",
   },

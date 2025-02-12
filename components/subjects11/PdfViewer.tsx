@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   pdfItem: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
@@ -175,11 +174,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 16,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    maxWidth: "100%",
+    width: 300,
   },
   pdfIconContainer: {
     marginBottom: 8,
@@ -188,9 +187,9 @@ const styles = StyleSheet.create({
   },
   pdfName: {
     color: '#212121',
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'center',
-    fontWeight: '500',
+    fontWeight: '600',
     marginTop: 8,
   },
   loadingContainer: {
@@ -200,6 +199,9 @@ const styles = StyleSheet.create({
   },
   listContent: {
     top: 70,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
   },
 });
 

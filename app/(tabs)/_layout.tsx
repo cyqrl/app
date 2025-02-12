@@ -1,28 +1,14 @@
-import { Tabs, router } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { selectedSubject } from "./first";
+import { Tabs, useSegments } from "expo-router";
+import React from "react";
+import { View, Image, StyleSheet, Text } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 const c = "#fff";
 
 export default function TabLayout() {
-  const [currentSubject, setCurrentSubject] = useState(selectedSubject);
-  const [showBackButton, setShowBackButton] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (selectedSubject !== currentSubject) {
-        setCurrentSubject(selectedSubject);
-      }
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [currentSubject]);
-
-
   return (
     <Tabs
-      screenOptions={({ route }) => ({
+      screenOptions={{
         headerShown: true,
         headerStyle: {
           height: 100,
@@ -35,7 +21,6 @@ export default function TabLayout() {
           fontSize: 25,
         },
         headerTitleAlign: "center",
-        
         tabBarStyle: {
           height: 80,
           backgroundColor: "transparent",
@@ -52,7 +37,7 @@ export default function TabLayout() {
             }}
           />
         ),
-      })}
+      }}
     >
       <Tabs.Screen
         name="index"
@@ -99,7 +84,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="first"
         options={{
-          title: currentSubject,
+          title: "أول ثانوي",
           tabBarLabel: ({ focused }) => (
             <View style={styles.labelContainer}>
               <Text style={[styles.tabLabel, focused && styles.activeTabLabel]}>
@@ -119,7 +104,10 @@ export default function TabLayout() {
 
       <Tabs.Screen
         name="Achievements"
-        options={{ tabBarItemStyle: { display: "none" } }}
+        options={{
+          title: "إنجازات",
+          tabBarItemStyle: { display: "none" }
+        }}
       />
       <Tabs.Screen
         name="Contact"
@@ -148,13 +136,5 @@ const styles = StyleSheet.create({
     width: "110%",
     height: 2,
     backgroundColor: c,
-  },
-  backButton: {
-    paddingLeft: 15,
-    paddingRight: 20,
-  },
-  backButtonText: {
-    color: c,
-    fontSize: 24,
   },
 });

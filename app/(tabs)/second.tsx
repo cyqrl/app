@@ -20,7 +20,7 @@ import CarpentryPage from "@/components/subjects12/CarpentryPage";
 import nextItem from "@/components/subjects12/nextItem";
 
 import { generalStyles } from "./styles";
-export var selectedSubject = "ثاني ثانوي";
+export var selectedSubject12 = "ثاني ثانوي";
 const HomeScreen = () => {
   const drawers = {
     drawer1: ["رياضيات", "فيزياء", "التربية الاسلامية", "اللغة الانجليزية", "اللغة العربية", "تكنولوجيا المعلومات"],
@@ -102,43 +102,43 @@ const HomeScreen = () => {
 
   const handleDrawerNavigation = (drawer: string, index: number) => {
       if (drawer === "drawer1") {
-        selectedSubject = drawers.drawer1[index];
-        if (selectedSubject === "رياضيات") {
+        selectedSubject12 = drawers.drawer1[index];
+        if (selectedSubject12 === "رياضيات") {
           setCurrentPage("math");
-        } else if (selectedSubject === "اللغة العربية") {
+        } else if (selectedSubject12 === "اللغة العربية") {
           setCurrentPage("arabic");
-        } else if (selectedSubject === "اللغة الانجليزية") {
+        } else if (selectedSubject12 === "اللغة الانجليزية") {
           setCurrentPage("english");
-        } else if (selectedSubject === "التربية الاسلامية") {
+        } else if (selectedSubject12 === "التربية الاسلامية") {
           setCurrentPage("religion");
-        } else if (selectedSubject === "تكنولوجيا المعلومات") {
+        } else if (selectedSubject12 === "تكنولوجيا المعلومات") {
           setCurrentPage("IT");
-        } else if (selectedSubject === "فيزياء") {
+        } else if (selectedSubject12 === "فيزياء") {
           setCurrentPage("physics");
         }
       } else if (drawer === "drawer2") {
-        selectedSubject = drawers.drawer2[index];
-        if (selectedSubject === "تصميم الجرافيكي") {
+        selectedSubject12 = drawers.drawer2[index];
+        if (selectedSubject12 === "تصميم الجرافيكي") {
           setCurrentPage("graphic");
-        } else if (selectedSubject === "صفحات الانترنت") {
+        } else if (selectedSubject12 === "صفحات الانترنت") {
           setCurrentPage("websites");
-        } else if (selectedSubject === "تكييف وتبريد") {
+        } else if (selectedSubject12 === "تكييف وتبريد") {
           setCurrentPage("refrigeration");
-        } else if (selectedSubject === "تمديدات صحية") {
+        } else if (selectedSubject12 === "تمديدات صحية") {
           setCurrentPage("sanitary");
-        } else if (selectedSubject === "حدادة") {
+        } else if (selectedSubject12 === "حدادة") {
           setCurrentPage("blacksmithing");
-        } else if (selectedSubject === "طاقة متجددة") {
+        } else if (selectedSubject12 === "طاقة متجددة") {
           setCurrentPage("energy");
-        } else if (selectedSubject === "كهرباء استعمال") {
+        } else if (selectedSubject12 === "كهرباء استعمال") {
           setCurrentPage("use_electricity");
-        } else if (selectedSubject === "كهرباء سيارات") {
+        } else if (selectedSubject12 === "كهرباء سيارات") {
           setCurrentPage("cars_electricity");
-        } else if (selectedSubject === "مباني ذكية") {
+        } else if (selectedSubject12 === "مباني ذكية") {
           setCurrentPage("smart_homes");
-        } else if (selectedSubject === "ميكانيك سيارات") {
+        } else if (selectedSubject12 === "ميكانيك سيارات") {
           setCurrentPage("mechanics");
-        } else if (selectedSubject === "نجارة") {
+        } else if (selectedSubject12 === "نجارة") {
           setCurrentPage("carpentry");
         }
       }

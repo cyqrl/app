@@ -21,7 +21,7 @@ import DrawingPage from "@/components/subjects11/DrawingPage";
 import nextItem from "@/components/subjects11/nextItem";
 
 import { generalStyles } from "./styles";
-export var selectedSubject = "أول ثانوي";
+export var selectedSubject11 = "أول ثانوي";
 const HomeScreen = () => {
   const drawers = {
     drawer1: ["رياضيات", "فيزياء", "التربية الاسلامية", "اللغة الانجليزية", "اللغة العربية", "تكنولوجيا المعلومات"],
@@ -63,7 +63,7 @@ const HomeScreen = () => {
       case "physics":
         return <PhysicsPage />;
 
-      // Technical subjects
+      // Vocational subjects
       case "graphic":
         return <GraphicPage />;
       case "websites":
@@ -104,45 +104,45 @@ const HomeScreen = () => {
 
   const handleDrawerNavigation = (drawer: string, index: number) => {
     if (drawer === "drawer1") {
-      selectedSubject = drawers.drawer1[index];
-      if (selectedSubject === "رياضيات") {
+      selectedSubject11 = drawers.drawer1[index];
+      if (selectedSubject11 === "رياضيات") {
         setCurrentPage("math");
-      } else if (selectedSubject === "اللغة العربية") {
+      } else if (selectedSubject11 === "اللغة العربية") {
         setCurrentPage("arabic");
-      } else if (selectedSubject === "اللغة الانجليزية") {
+      } else if (selectedSubject11 === "اللغة الانجليزية") {
         setCurrentPage("english");
-      } else if (selectedSubject === "التربية الاسلامية") {
+      } else if (selectedSubject11 === "التربية الاسلامية") {
         setCurrentPage("religion");
-      } else if (selectedSubject === "تكنولوجيا المعلومات") {
+      } else if (selectedSubject11 === "تكنولوجيا المعلومات") {
         setCurrentPage("IT");
-      } else if (selectedSubject === "فيزياء") {
+      } else if (selectedSubject11 === "فيزياء") {
         setCurrentPage("physics");
       }
     } else if (drawer === "drawer2") {
-      selectedSubject = drawers.drawer2[index];
-      if (selectedSubject === "تصميم الجرافيكي") {
+      selectedSubject11 = drawers.drawer2[index];
+      if (selectedSubject11 === "تصميم الجرافيكي") {
         setCurrentPage("graphic");
-      } else if (selectedSubject === "صفحات الانترنت") {
+      } else if (selectedSubject11 === "صفحات الانترنت") {
         setCurrentPage("websites");
-      } else if (selectedSubject === "تكييف وتبريد") {
+      } else if (selectedSubject11 === "تكييف وتبريد") {
         setCurrentPage("refrigeration");
-      } else if (selectedSubject === "تمديدات صحية") {
+      } else if (selectedSubject11 === "تمديدات صحية") {
         setCurrentPage("sanitary");
-      } else if (selectedSubject === "حدادة") {
+      } else if (selectedSubject11 === "حدادة") {
         setCurrentPage("blacksmithing");
-      } else if (selectedSubject === "طاقة متجددة") {
+      } else if (selectedSubject11 === "طاقة متجددة") {
         setCurrentPage("energy");
-      } else if (selectedSubject === "كهرباء استعمال") {
+      } else if (selectedSubject11 === "كهرباء استعمال") {
         setCurrentPage("use_electricity");
-      } else if (selectedSubject === "كهرباء سيارات") {
+      } else if (selectedSubject11 === "كهرباء سيارات") {
         setCurrentPage("cars_electricity");
-      } else if (selectedSubject === "مباني ذكية") {
+      } else if (selectedSubject11 === "مباني ذكية") {
         setCurrentPage("smart_homes");
-      } else if (selectedSubject === "ميكانيك سيارات") {
+      } else if (selectedSubject11 === "ميكانيك سيارات") {
         setCurrentPage("mechanics");
-      } else if (selectedSubject === "نجارة") {
+      } else if (selectedSubject11 === "نجارة") {
         setCurrentPage("carpentry");
-      } else if (selectedSubject === "رسم صناعي") {
+      } else if (selectedSubject11 === "رسم صناعي") {
         setCurrentPage("drawing");
       }
     }

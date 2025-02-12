@@ -1,0 +1,160 @@
+{
+    "11": {
+    "math": {
+      "exams": [
+        {
+          "id": "1",
+          "name": "امتحان يومي اول للفصل الثاني",
+          "uri": "https://drive.google.com/file/d/1dY4nR7t8HkL2jF9G3hJ5D6sQ2Z3x4VbM/view"
+        },
+        {
+          "id": "2",
+          "name": "fkdwamfiawmfawf",
+          "uri": "https://www.wepal.net/library/upload/12-2019/content/5e012f5710d5a.pdf"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "101",
+          "name": "Advanced Trigonometry Guide",
+          "uri": "https://drive.google.com/file/d/1iU7tWRpSEzSl3KMUzgt8CaHbcUZ4FhS8/view"
+        },
+        {
+          "id": "102",
+          "name": "Differential Equations Handbook",
+          "uri": "https://drive.google.com/file/d/1fR4t5Y6u7I8O9p0Q1w2E3rT4y5U6i7oP/view"
+        }
+      ]
+    },
+    "english": {
+      "exams": [
+        {
+          "id": "1",
+          "name": "First Semester Exam",
+          "uri": "https://example.com/english_exam1.pdf"
+        },
+        {
+          "id": "2",
+          "name": "Second Semester Exam",
+          "uri": "https://example.com/english_exam2.pdf"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "101",
+          "name": "Grammar Guide",
+          "uri": "https://example.com/grammar_guide.pdf"
+        },
+        {
+          "id": "102",
+          "name": "Vocabulary List",
+          "uri": "https://example.com/vocabulary_list.pdf"
+        }
+      ]
+    },
+    "arabic": {
+      "exams": [
+        {
+          "id": "1",
+          "name": "امتحان الفصل الاول",
+          "uri": "https://example.com/arabic_exam1.pdf"
+        },
+        {
+          "id": "2",
+          "name": "امتحان الفصل الثاني",
+          "uri": "https://example.com/arabic_exam2.pdf"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "101",
+          "name": "دليل القواعد",
+          "uri": "https://example.com/arabic_grammar_guide.pdf"
+        },
+        {
+          "id": "102",
+          "name": "قائمة المفردات",
+          "uri": "https://example.com/arabic_vocabulary_list.pdf"
+        }
+      ]
+    },
+    "religion": {
+      "exams": [
+        {
+          "id": "1",
+          "name": "امتحان الفصل الاول",
+          "uri": "https://example.com/religion_exam1.pdf"
+        },
+        {
+          "id": "2",
+          "name": "امتحان الفصل الثاني",
+          "uri": "https://example.com/religion_exam2.pdf"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "101",
+          "name": "دليل الفقه",
+          "uri": "https://example.com/fiqh_guide.pdf"
+        },
+        {
+          "id": "102",
+          "name": "دليل الحديث",
+          "uri": "https://example.com/hadith_guide.pdf"
+        }
+      ]
+    },
+    "IT": {
+      "exams": [
+        {
+          "id": "1",
+          "name": "First Semester Exam",
+          "uri": "https://example.com/it_exam1.pdf"
+        },
+        {
+          "id": "2",
+          "name": "Second Semester Exam",
+          "uri": "https://example.com/it_exam2.pdf"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "101",
+          "name": "Networking Guide",
+          "uri": "https://example.com/networking_guide.pdf"
+        },
+        {
+          "id": "102",
+          "name": "Programming Handbook",
+          "uri": "https://example.com/programming_handbook.pdf"
+        }
+      ]
+    },
+    "physics": {
+      "exams": [
+        {
+          "id": "1",
+          "name": "First الو Exam",
+          "uri": "https://example.com/physics_exam1.pdf"
+        },
+        {
+          "id": "2",
+          "name": "Second Semester Exam",
+          "uri": "https://example.com/physics_exam2.pdf"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "101",
+          "name": "Mechanics Guide",
+          "uri": "https://example.com/mechanics_guide.pdf"
+        },
+        {
+          "id": "102",
+          "name": "Electromagnetism Handbook",
+          "uri": "https://example.com/electromagnetism_handbook.pdf"
+        }
+      ]
+    }
+    }
+  }

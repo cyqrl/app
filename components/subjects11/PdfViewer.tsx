@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Alert, ActivityIndicator } from "react-native";
-import * as Linking from 'expo-linking';
-import Animated, { SlideInRight, FadeIn } from 'react-native-reanimated';
-import { MaterialIcons } from '@expo/vector-icons';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
+import * as Linking from "expo-linking";
+import Animated, { SlideInRight, FadeIn } from "react-native-reanimated";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface PdfItem {
   id: string;
@@ -16,22 +25,49 @@ interface PdfData {
 }
 
 interface PdfViewerProps {
+  subjectKey: string;
   subjectName: string;
-  examPdfs: PdfItem[];
-  attachmentPdfs: PdfItem[];
 }
-
-const PdfViewer: React.FC<PdfViewerProps> = ({ subjectName, examPdfs, attachmentPdfs }) => {
-  const [currentTab, setCurrentTab] = useState<"home" | "exams" | "attachments">("home");
+const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
+  const [pdfData, setPdfData] = useState<PdfData>({
+    exams: [],
+    attachments: [],
+  });
   const [loading, setLoading] = useState(true);
+  const [currentTab, setCurrentTab] = useState<
+    "home" | "exams" | "attachments"
+  >("home");
   const windowWidth = Dimensions.get("window").width;
   const isTablet = windowWidth > 768;
 
   useEffect(() => {
-    // Simulate loading delay
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://gist.githubusercontent.com/cyqrl/9161e3cbfe3427446c5962a2d19bebeb/raw/content.json"
+        );
+        const data = await response.json();
+        const gradeData = data["11"];
+        const subjectData = gradeData[subjectKey];
+        
+        if (subjectData) {
+          setPdfData({
+            exams: subjectData.exams || [],
+            attachments: subjectData.attachments || [],
+          });
+        } else {
+          setPdfData({ exams: [], attachments: [] });
+        }
+      } catch (error) {
+        Alert.alert("Error", "Failed to fetch data");
+        setPdfData({ exams: [], attachments: [] });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [subjectKey]);
 
   const openPdf = async (uri: string) => {
     try {
@@ -39,18 +75,18 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectName, examPdfs, attachment
       if (supported) {
         await Linking.openURL(uri);
       } else {
-        Alert.alert('Error', 'No PDF reader app found');
+        Alert.alert("Error", "No PDF reader app found");
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to open PDF');
+      Alert.alert("Error", "Failed to open PDF");
     }
   };
 
   const renderPdfList = (items: PdfItem[]) => (
     <Animated.FlatList
       data={items}
-      keyExtractor={item => item.id}
-      numColumns={isTablet ? 3 : 1} // 3 columns for tablet, 1 for mobile
+      keyExtractor={(item) => item.id}
+      numColumns={isTablet ? 3 : 1}
       contentContainerStyle={styles.listContent}
       showsVerticalScrollIndicator={false}
       renderItem={({ item, index }) => (
@@ -83,9 +119,9 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectName, examPdfs, attachment
 
     switch (currentTab) {
       case "exams":
-        return renderPdfList(examPdfs);
+        return renderPdfList(pdfData.exams);
       case "attachments":
-        return renderPdfList(attachmentPdfs);
+        return renderPdfList(pdfData.attachments);
       default:
         return (
           <Animated.View
@@ -129,18 +165,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   subjectTitle: {
     fontSize: 25,
-    fontWeight: 'bold',
-    color: '#2196F3',
+    fontWeight: "bold",
+    color: "#2196F3",
     marginVertical: 20,
-    top: 50,
-    right: -120,
     width: "100%",
-    backgroundColor: 'white',
-    zIndex: 100,
+    textAlign: "center",
   },
   container: {
     flex: 1,
@@ -157,7 +190,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: "hidden",
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
@@ -167,7 +200,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   pdfItem: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
@@ -175,31 +207,35 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 16,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    maxWidth: "100%",
+    width: 300,
   },
   pdfIconContainer: {
     marginBottom: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   pdfName: {
-    color: '#212121',
+    color: "#212121",
     fontSize: 16,
-    textAlign: 'center',
-    fontWeight: '500',
+    textAlign: "center",
+    fontWeight: "500",
     marginTop: 8,
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   listContent: {
-    top: 70,
+    paddingTop: 20,
+    paddingBottom: 100,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
   },
 });
 

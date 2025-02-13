@@ -1,97 +1,40 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import MathPage from "@/components/subjects11/MathPage";
-import EnglishPage from "@/components/subjects11/EnglishPage";
-import ArabicPage from "@/components/subjects11/ArabicPage";
-import ReligionPage from "@/components/subjects11/ReligionPage";
-import ITPage from "@/components/subjects11/ITPage";
-import PhysicsPage from "@/components/subjects11/PhysicsPage";
-import GraphicPage from "@/components/subjects11/GraphicPage";
-import WebsitesPage from "@/components/subjects11/WebsitesPage";
-import RefrigerationPage from "@/components/subjects11/RefrigerationPage";
-import SanitaryPage from "@/components/subjects11/SanitaryPage";
-import BlacksmithingPage from "@/components/subjects11/BlacksmithingPage";
-import EnergyPage from "@/components/subjects11/EnergyPage";
-import UseElectricityPage from "@/components/subjects11/UseElectricityPage";
-import CarsElectricityPage from "@/components/subjects11/CarsElectricityPage";
-import SmartHomesPage from "@/components/subjects11/SmartHomesPage";
-import MechanicsPage from "@/components/subjects11/MechanicsPage";
-import CarpentryPage from "@/components/subjects11/CarpentryPage";
-import DrawingPage from "@/components/subjects11/DrawingPage";
+import PdfViewer from "@/components/subjects11/PdfViewer";
 import nextItem from "@/components/subjects11/nextItem";
-
 import { generalStyles } from "./styles";
-export var selectedSubject11 = "أول ثانوي";
+
 const HomeScreen = () => {
   const drawers = {
-    drawer1: ["رياضيات", "فيزياء", "التربية الاسلامية", "اللغة الانجليزية", "اللغة العربية", "تكنولوجيا المعلومات"],
+    drawer1: [
+      { name: "رياضيات", key: "math" },
+      { name: "فيزياء", key: "physics" },
+      { name: "التربية الاسلامية", key: "religion" },
+      { name: "اللغة الانجليزية", key: "english" },
+      { name: "اللغة العربية", key: "arabic" },
+      { name: "تكنولوجيا المعلومات", key: "IT" },
+    ],
     drawer2: [
-      "تصميم الجرافيكي",
-      "صفحات الانترنت",
-      "تكييف وتبريد",
-      "تمديدات صحية",
-      "حدادة",
-      "طاقة متجددة",
-      "كهرباء استعمال",
-      "كهرباء سيارات",
-      "مباني ذكية",
-      "ميكانيك سيارات",
-      "نجارة",
-      "رسم صناعي"
+      { name: "تصميم الجرافيكي", key: "graphic" },
+      { name: "صفحات الانترنت", key: "websites" },
+      { name: "تكييف وتبريد", key: "refrigeration" },
+      { name: "تمديدات صحية", key: "sanitary" },
+      { name: "حدادة", key: "blacksmithing" },
+      { name: "طاقة متجددة", key: "energy" },
+      { name: "كهرباء استعمال", key: "use_electricity" },
+      { name: "كهرباء سيارات", key: "cars_electricity" },
+      { name: "مباني ذكية", key: "smart_homes" },
+      { name: "ميكانيك سيارات", key: "mechanics" },
+      { name: "نجارة", key: "carpentry" },
+      { name: "رسم صناعي", key: "drawing" },
     ],
   };
 
   const [selectedDrawer1, setSelectedDrawer1] = useState(0);
   const [selectedDrawer2, setSelectedDrawer2] = useState(0);
-  const [currentPage, setCurrentPage] = useState<string>("home"); 
+  const [currentPage, setCurrentPage] = useState<string>("home");
   const [lastSubject, setLastSubject] = useState<string | null>(null);
-
-  const renderPage = () => {
-    switch (currentPage) {
-
-      // Academic subjects
-      case "math":
-        return <MathPage />;
-      case "english":
-        return <EnglishPage />;
-      case "arabic":
-        return <ArabicPage />;
-      case "religion":
-        return <ReligionPage />;
-      case "IT":
-        return <ITPage />;
-      case "physics":
-        return <PhysicsPage />;
-
-      // Vocational subjects
-      case "graphic":
-        return <GraphicPage />;
-      case "websites":
-        return <WebsitesPage />;
-      case "refrigeration":
-        return <RefrigerationPage />;
-      case "sanitary":
-        return <SanitaryPage />;
-      case "blacksmithing":
-        return <BlacksmithingPage />;
-      case "energy":
-        return <EnergyPage />;
-      case "use_electricity":
-        return <UseElectricityPage />;
-      case "cars_electricity":
-        return <CarsElectricityPage />;
-      case "smart_homes":
-        return <SmartHomesPage />;
-      case "mechanics":
-        return <MechanicsPage />;
-      case "carpentry":
-        return <CarpentryPage />;
-      case "drawing":
-        return <DrawingPage />;
-      default:
-        return null;
-    }
-  };
+  const [selectedSubjectName, setSelectedSubjectName] = useState("أول ثانوي");
 
   const handleChooseSubject = () => {
     if (currentPage === "home" && lastSubject) {
@@ -104,48 +47,19 @@ const HomeScreen = () => {
 
   const handleDrawerNavigation = (drawer: string, index: number) => {
     if (drawer === "drawer1") {
-      selectedSubject11 = drawers.drawer1[index];
-      if (selectedSubject11 === "رياضيات") {
-        setCurrentPage("math");
-      } else if (selectedSubject11 === "اللغة العربية") {
-        setCurrentPage("arabic");
-      } else if (selectedSubject11 === "اللغة الانجليزية") {
-        setCurrentPage("english");
-      } else if (selectedSubject11 === "التربية الاسلامية") {
-        setCurrentPage("religion");
-      } else if (selectedSubject11 === "تكنولوجيا المعلومات") {
-        setCurrentPage("IT");
-      } else if (selectedSubject11 === "فيزياء") {
-        setCurrentPage("physics");
-      }
+      const subject = drawers.drawer1[index];
+      setSelectedSubjectName(subject.name);
+      setCurrentPage(subject.key);
     } else if (drawer === "drawer2") {
-      selectedSubject11 = drawers.drawer2[index];
-      if (selectedSubject11 === "تصميم الجرافيكي") {
-        setCurrentPage("graphic");
-      } else if (selectedSubject11 === "صفحات الانترنت") {
-        setCurrentPage("websites");
-      } else if (selectedSubject11 === "تكييف وتبريد") {
-        setCurrentPage("refrigeration");
-      } else if (selectedSubject11 === "تمديدات صحية") {
-        setCurrentPage("sanitary");
-      } else if (selectedSubject11 === "حدادة") {
-        setCurrentPage("blacksmithing");
-      } else if (selectedSubject11 === "طاقة متجددة") {
-        setCurrentPage("energy");
-      } else if (selectedSubject11 === "كهرباء استعمال") {
-        setCurrentPage("use_electricity");
-      } else if (selectedSubject11 === "كهرباء سيارات") {
-        setCurrentPage("cars_electricity");
-      } else if (selectedSubject11 === "مباني ذكية") {
-        setCurrentPage("smart_homes");
-      } else if (selectedSubject11 === "ميكانيك سيارات") {
-        setCurrentPage("mechanics");
-      } else if (selectedSubject11 === "نجارة") {
-        setCurrentPage("carpentry");
-      } else if (selectedSubject11 === "رسم صناعي") {
-        setCurrentPage("drawing");
-      }
+      const subject = drawers.drawer2[index];
+      setSelectedSubjectName(subject.name);
+      setCurrentPage(subject.key);
     }
+  };
+
+  const renderPage = () => {
+    if (currentPage === "home") return null;
+    return <PdfViewer subjectKey={currentPage} subjectName={selectedSubjectName} />;
   };
 
   return (
@@ -168,17 +82,9 @@ const HomeScreen = () => {
       {currentPage === "home" ? (
         <>
           <View style={styles.drawer}>
-            <Text
-              style={{
-                transform: [{ translateY: -25 }],
-                fontSize: 20,
-                backgroundColor: "white",
-              }}
-            >
-              المواد الاكاديمية
-            </Text>
+            <Text style={styles.drawerLabel}>المواد الاكاديمية</Text>
             <Text style={styles.drawerContent}>
-              {drawers.drawer1[selectedDrawer1]}
+              {drawers.drawer1[selectedDrawer1].name}
             </Text>
             <View style={styles.nextContainer}>
               <TouchableOpacity
@@ -194,9 +100,7 @@ const HomeScreen = () => {
                 <Text style={styles.arrow}>◀</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>
-                  handleDrawerNavigation("drawer1", selectedDrawer1)
-                }
+                onPress={() => handleDrawerNavigation("drawer1", selectedDrawer1)}
                 style={generalStyles.button}
               >
                 <Text style={styles.actionButtonText}>انتقال</Text>
@@ -217,17 +121,9 @@ const HomeScreen = () => {
           </View>
 
           <View style={styles.drawer}>
-            <Text
-              style={{
-                transform: [{ translateY: -25 }],
-                fontSize: 20,
-                backgroundColor: "white",
-              }}
-            >
-              المواد المهنية
-            </Text>
+            <Text style={styles.drawerLabel}>المواد المهنية</Text>
             <Text style={styles.drawerContent}>
-              {drawers.drawer2[selectedDrawer2]}
+              {drawers.drawer2[selectedDrawer2].name}
             </Text>
             <View style={styles.nextContainer}>
               <TouchableOpacity
@@ -243,9 +139,7 @@ const HomeScreen = () => {
                 <Text style={styles.arrow}>◀</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>
-                  handleDrawerNavigation("drawer2", selectedDrawer2)
-                }
+                onPress={() => handleDrawerNavigation("drawer2", selectedDrawer2)}
                 style={generalStyles.button}
               >
                 <Text style={styles.actionButtonText}>انتقال</Text>
@@ -305,6 +199,11 @@ const styles = StyleSheet.create({
     width: "70%",
     height: "30%",
   },
+  drawerLabel: {
+    transform: [{ translateY: -25 }],
+    fontSize: 20,
+    backgroundColor: "white",
+  },
   arrow: {
     fontSize: 40,
     color: "#2196F3",
@@ -315,7 +214,6 @@ const styles = StyleSheet.create({
     top: 40,
     color: "#212121",
   },
-  
   actionButtonText: {
     color: "#FFFFFF",
     fontSize: 20,

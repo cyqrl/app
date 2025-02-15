@@ -9,6 +9,7 @@ import {
   Alert,
   Modal,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
@@ -39,6 +40,8 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
   const [loading, setLoading] = useState(true);
   const [currentTab, setCurrentTab] = useState<"home" | "exams" | "attachments">("home");
   const [selectedPdfUri, setSelectedPdfUri] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredItems, setFilteredItems] = useState<PdfItem[]>([]);
 
   const windowWidth = Dimensions.get("window").width;
   const isTablet = windowWidth > 768;
@@ -68,6 +71,16 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
     };
     fetchData();
   }, [subjectKey]);
+
+  useEffect(() => {
+    if (currentTab === "exams" || currentTab === "attachments") {
+      const items = currentTab === "exams" ? pdfData.exams : pdfData.attachments;
+      const filtered = items.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredItems(filtered);
+    }
+  }, [searchQuery, currentTab, pdfData.exams, pdfData.attachments]);
 
   const convertGoogleDriveLink = (url: string) => {
     const fileId = url.match(/\/d\/(.+?)\//)?.[1];
@@ -127,16 +140,39 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
     if (loading) {
       return (
         <Animated.View entering={FadeIn} style={styles.loadingContainer}>
-          {/* Replaced GIF with ActivityIndicator */}
           <ActivityIndicator size="large" color="#2196F3" />
         </Animated.View>
       );
     }
     switch (currentTab) {
       case "exams":
-        return renderPdfList(pdfData.exams);
       case "attachments":
-        return renderPdfList(pdfData.attachments);
+        return (
+          <View style={styles.tabContainer}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="ابحث عن مرفق"
+                placeholderTextColor="#888"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+              {searchQuery.length > 0 && (
+                <TouchableOpacity
+                  style={styles.clearButton}
+                  onPress={() => setSearchQuery("")}
+                >
+                  <MaterialIcons name="close" size={20} color="#888" />
+                </TouchableOpacity>
+              )}
+            </View>
+            {filteredItems.length > 0 ? (
+              renderPdfList(filteredItems)
+            ) : (
+              <Text style={styles.noResultsText}>هذا العنصر غير متوفر حاليا</Text>
+            )}
+          </View>
+        );
       default:
         return (
           <Animated.View
@@ -314,6 +350,36 @@ const styles = StyleSheet.create({
   },
   webview: {
     flex: 1,
+  },
+  tabContainer: {
+    flex: 1,
+    width: "100%",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    fontSize: 16,
+    color: "#000",
+    textAlign: "right",
+  },
+  clearButton: {
+    padding: 5,
+  },
+  noResultsText: {
+    textAlign: "center",
+    marginTop: 20,
+    fontSize: 16,
+    color: "#888",
   },
 });
 

@@ -30,15 +30,22 @@ interface PdfData {
 interface PdfViewerProps {
   subjectKey: string;
   subjectName: string;
+  grade: string;
 }
 
-const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
+const PdfViewer: React.FC<PdfViewerProps> = ({
+  subjectKey,
+  subjectName,
+  grade,
+}) => {
   const [pdfData, setPdfData] = useState<PdfData>({
     exams: [],
     attachments: [],
   });
   const [loading, setLoading] = useState(true);
-  const [currentTab, setCurrentTab] = useState<"home" | "exams" | "attachments">("home");
+  const [currentTab, setCurrentTab] = useState<
+    "home" | "exams" | "attachments"
+  >("home");
   const [selectedPdfUri, setSelectedPdfUri] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredItems, setFilteredItems] = useState<PdfItem[]>([]);
@@ -49,9 +56,11 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://cyqrl.github.io/Contents/main.json");
+        const response = await fetch(
+          "https://cyqrl.github.io/Contents/main.json"
+        );
         const data = await response.json();
-        const gradeData = data["11"];
+        const gradeData = data[grade];
         const subjectData = gradeData[subjectKey];
 
         if (subjectData) {
@@ -70,11 +79,12 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
       }
     };
     fetchData();
-  }, [subjectKey]);
+  }, [subjectKey, grade]);
 
   useEffect(() => {
     if (currentTab === "exams" || currentTab === "attachments") {
-      const items = currentTab === "exams" ? pdfData.exams : pdfData.attachments;
+      const items =
+        currentTab === "exams" ? pdfData.exams : pdfData.attachments;
       const filtered = items.filter((item) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -169,7 +179,9 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
             {filteredItems.length > 0 ? (
               renderPdfList(filteredItems)
             ) : (
-              <Text style={styles.noResultsText}>هذا العنصر غير متوفر حاليا</Text>
+              <Text style={styles.noResultsText}>
+                هذا العنصر غير متوفر حاليا
+              </Text>
             )}
           </View>
         );

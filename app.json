@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Industry Portal",
-    "slug": "Industry Portal",
+    "slug": "industry-portal",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo-loader.gif",
@@ -9,14 +9,18 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cyqrl.industryportal",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#2196F3"
       },
-      "package": "com.anonymous.Industry Portal"
+      "package": "com.cyqrl.industryportal"
     },
     "web": {
       "bundler": "metro",
@@ -31,7 +35,7 @@
           "image": "./assets/images/logo-loader.gif",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#2196F3"
         }
       ]
     ],
@@ -43,8 +47,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "4ac0243b-d220-46c2-84cd-7870641e7698"
+        "projectId": "fc195725-a099-45de-832d-f9e20da494cf"
       }
-    }
+    },
+    "owner": "cyqrl"
   }
 }

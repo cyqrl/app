@@ -18,17 +18,15 @@ import Animated, {
 
 const { width } = Dimensions.get("window");
 
-// Define the TypeScript interface for the achievement data
 interface Achievement {
   id: number;
   name: string;
   number: string;
   major: string;
   description: string;
-  avatar: any; // Path to the avatar image
+  avatar: any;
 }
 
-// Sample Data
 const achievementsData: Achievement[] = [
   {
     id: 1,
@@ -62,13 +60,11 @@ const achievementsData: Achievement[] = [
     name: "سارة خالد",
     number: "2021",
     major: "تصميم المنتجات",
-    description:
-      "صممت منتجًا مستدامًا تم اختياره لعرضه في معرض دولي",
+    description: "صممت منتجًا مستدامًا تم اختياره لعرضه في معرض دولي",
     avatar: require("@/assets/images/logo.png"),
   },
 ];
 
-// Define the props for the AchievementCard component
 interface AchievementCardProps {
   item: Achievement;
 }
@@ -76,50 +72,64 @@ interface AchievementCardProps {
 export default function Achievements() {
   return (
     <LinearGradient colors={["#F5F5F5", "#2196F3"]} style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-      {/* Report Section */}
-      <LinearGradient colors={["#F5F5F5", "#7ec2fc"]} style={styles.reportSection}>
-        <Text style={styles.reportTitle}>لماذا التعليم المهني مهم؟</Text>
-        
-        <Text style={[styles.reportText, {marginBottom: 50}]}>
-          التعليم المهني يمثل ركيزة أساسية في بناء اقتصادات قوية ومستدامة. فهو لا يقتصر فقط على تزويد الطلاب بالمهارات العملية، بل يمتد ليشمل تطوير شخصياتهم وقدراتهم على التفكير النقدي والابتكار. من خلال التركيز على الجانب التطبيقي، يتيح التعليم المهني للطلاب فرصة لفهم كيفية عمل الأشياء في الواقع، مما يجعلهم أكثر استعدادًا لمواجهة تحديات سوق العمل.
-        </Text>
-
-        <Text style={styles.reportText}>
-          يتميز التعليم المهني بعدة مزايا تجعله خيارًا استراتيجيًا للأفراد والمجتمعات:
-        </Text>
-
-          <Text style={styles.bulletPoint}>• تحسين فرص التوظيف: يساعد الطلاب على اكتساب المهارات المطلوبة في سوق العمل.</Text>
-          <Text style={styles.bulletPoint}>• تعزيز الابتكار: يشجع الطلاب على التفكير الإبداعي وحل المشكلات المعقدة.</Text>
-          <Text style={styles.bulletPoint}>• دعم الاقتصاد الوطني: يساهم في توفير كوادر مؤهلة تلبي احتياجات الصناعات المختلفة.</Text>
-          <Text style={styles.bulletPoint}>• تعزيز الاستدامة: يركز على تطوير حلول تقنية صديقة للبيئة.</Text>
-          <Text style={styles.bulletPoint}>• تقليل البطالة: يوفر فرص عمل مباشرة للخريجين في مجالات متعددة.</Text>
-
-        <Text style={[styles.reportText, {marginTop: 30}]}>
-          بالإضافة إلى ذلك، يلعب التعليم المهني دورًا كبيرًا في تقليل الفجوة بين التعليم الأكاديمي ومتطلبات سوق العمل. العديد من الشركات العالمية والمحلية تعتمد بشكل كبير على خريجي التعليم المهني بسبب مهاراتهم العملية العالية وسرعتهم في التكيف مع بيئات العمل المختلفة.
-        </Text>
-
-        <Text style={styles.reportSubtitle}>
-          هذه بعض النتائج التي حققها التعليم المهني في حياة الخريجين:
-        </Text>
-      </LinearGradient>
-
-      {/* Achievement Cards */}
-      <FlatList
-        data={achievementsData}
-        renderItem={({ item }) => <AchievementCard item={item} />} // Pass 'item' explicitly
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <LinearGradient
+          colors={["#F5F5F5", "#7ec2fc"]}
+          style={styles.reportSection}
+        >
+          <Text style={styles.reportTitle}>لماذا التعليم المهني مهم؟</Text>
+          <Text style={[styles.reportText, { marginBottom: 50 }]}>
+            التعليم المهني يمثل ركيزة أساسية في بناء اقتصادات قوية ومستدامة. فهو
+            لا يقتصر فقط على تزويد الطلاب بالمهارات العملية، بل يمتد ليشمل تطوير
+            شخصياتهم وقدراتهم على التفكير النقدي والابتكار. من خلال التركيز على
+            الجانب التطبيقي، يتيح التعليم المهني للطلاب فرصة لفهم كيفية عمل
+            الأشياء في الواقع، مما يجعلهم أكثر استعدادًا لمواجهة تحديات سوق
+            العمل.
+          </Text>
+          <Text style={styles.reportText}>
+            يتميز التعليم المهني بعدة مزايا تجعله خيارًا استراتيجيًا للأفراد
+            والمجتمعات:
+          </Text>
+          <Text style={styles.bulletPoint}>
+            • تحسين فرص التوظيف: يساعد الطلاب على اكتساب المهارات المطلوبة في
+            سوق العمل.
+          </Text>
+          <Text style={styles.bulletPoint}>
+            • تعزيز الابتكار: يشجع الطلاب على التفكير الإبداعي وحل المشكلات
+            المعقدة.
+          </Text>
+          <Text style={styles.bulletPoint}>
+            • دعم الاقتصاد الوطني: يساهم في توفير كوادر مؤهلة تلبي احتياجات
+            الصناعات المختلفة.
+          </Text>
+          <Text style={styles.bulletPoint}>
+            • تعزيز الاستدامة: يركز على تطوير حلول تقنية صديقة للبيئة.
+          </Text>
+          <Text style={styles.bulletPoint}>
+            • تقليل البطالة: يوفر فرص عمل مباشرة للخريجين في مجالات متعددة.
+          </Text>
+          <Text style={[styles.reportText, { marginTop: 30 }]}>
+            بالإضافة إلى ذلك، يلعب التعليم المهني دورًا كبيرًا في تقليل الفجوة
+            بين التعليم الأكاديمي ومتطلبات سوق العمل. العديد من الشركات العالمية
+            والمحلية تعتمد بشكل كبير على خريجي التعليم المهني بسبب مهاراتهم
+            العملية العالية وسرعتهم في التكيف مع بيئات العمل المختلفة.
+          </Text>
+          <Text style={styles.reportSubtitle}>
+            هذه بعض النتائج التي حققها التعليم المهني في حياة الخريجين:
+          </Text>
+        </LinearGradient>
+        <FlatList
+          data={achievementsData}
+          renderItem={({ item }) => <AchievementCard item={item} />}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+        />
       </ScrollView>
     </LinearGradient>
   );
 }
 
-// Achievement Card Component
 const AchievementCard: React.FC<AchievementCardProps> = ({ item }) => {
   const opacityAnim = useSharedValue(0);
 
@@ -140,10 +150,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({ item }) => {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        {/* Avatar */}
         <Image source={item.avatar} style={styles.avatar} />
-
-        {/* Content */}
         <View style={styles.cardContent}>
           <Text style={styles.number}>{item.number}</Text>
           <Text style={styles.name}>{item.name}</Text>
@@ -155,7 +162,6 @@ const AchievementCard: React.FC<AchievementCardProps> = ({ item }) => {
   );
 };
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

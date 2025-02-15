@@ -38,7 +38,6 @@ const HomeScreen = () => {
     transform: [{ translateY: floatAnim.value }],
   }));
 
-  // Responsive design values
   const responsive = {
     titleSize: isTablet ? 32 : 26,
     subtitleSize: isTablet ? 22 : 18,
@@ -52,7 +51,7 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Hero Section */}
+      
         <Animated.View
           entering={SlideInUp.duration(800)}
           style={[styles.hero, isTablet && styles.heroTablet]}
@@ -73,7 +72,6 @@ const HomeScreen = () => {
           </View>
         </Animated.View>
 
-        {/* Content Sections */}
         <View style={styles.contentContainer}>
           <Animated.View entering={FadeInRight.delay(200)}>
             <SectionCard
@@ -123,7 +121,6 @@ const HomeScreen = () => {
         </View>
       </ScrollView>
 
-      {/* Floating Action Button */}
       <Animated.View
         style={[styles.fab, floatingButtonStyle]}
         entering={FadeIn.delay(1000)}

@@ -1,9 +1,6 @@
-import { Tabs, useSegments } from "expo-router";
+import { Tabs } from "expo-router";
 import React from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
-
-const c = "#fff";
 
 export default function TabLayout() {
   return (
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
   tabLabel: {
     fontSize: 17,
     textAlign: "center",
-    color: c,
+    color: "#fff",
   },
   activeTabLabel: {
     fontWeight: "bold",
@@ -135,6 +132,6 @@ const styles = StyleSheet.create({
     bottom: -8,
     width: "110%",
     height: 2,
-    backgroundColor: c,
+    backgroundColor: "#fff",
   },
 });

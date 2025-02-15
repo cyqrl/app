@@ -7,8 +7,11 @@ import {
   Image,
   Dimensions,
   Alert,
+  Modal,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
+import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
 import Animated, { SlideInRight, FadeIn } from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -28,28 +31,29 @@ interface PdfViewerProps {
   subjectKey: string;
   subjectName: string;
 }
+
 const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
   const [pdfData, setPdfData] = useState<PdfData>({
     exams: [],
     attachments: [],
   });
   const [loading, setLoading] = useState(true);
-  const [currentTab, setCurrentTab] = useState<
-    "home" | "exams" | "attachments"
-  >("home");
+  const [currentTab, setCurrentTab] = useState<"home" | "exams" | "attachments">("home");
+  const [selectedPdfUri, setSelectedPdfUri] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredItems, setFilteredItems] = useState<PdfItem[]>([]);
+
   const windowWidth = Dimensions.get("window").width;
   const isTablet = windowWidth > 768;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://gist.githubusercontent.com/cyqrl/9161e3cbfe3427446c5962a2d19bebeb/raw/content.json"
-        );
+        const response = await fetch("https://cyqrl.github.io/Contents/main.json");
         const data = await response.json();
         const gradeData = data["11"];
         const subjectData = gradeData[subjectKey];
-        
+
         if (subjectData) {
           setPdfData({
             exams: subjectData.exams || [],
@@ -65,21 +69,45 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [subjectKey]);
 
-  const openPdf = async (uri: string) => {
-    try {
-      const supported = await Linking.canOpenURL(uri);
-      if (supported) {
-        await Linking.openURL(uri);
-      } else {
-        Alert.alert("Error", "No PDF reader app found");
-      }
-    } catch (error) {
-      Alert.alert("Error", "Failed to open PDF");
+  useEffect(() => {
+    if (currentTab === "exams" || currentTab === "attachments") {
+      const items = currentTab === "exams" ? pdfData.exams : pdfData.attachments;
+      const filtered = items.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredItems(filtered);
     }
+  }, [searchQuery, currentTab, pdfData.exams, pdfData.attachments]);
+
+  const convertGoogleDriveLink = (url: string) => {
+    const fileId = url.match(/\/d\/(.+?)\//)?.[1];
+    if (fileId) {
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+    return url;
+  };
+
+  const convertToDirectDownloadLink = (url: string) => {
+    const fileId = url.match(/\/d\/(.+?)\//)?.[1];
+    if (fileId) {
+      return `https://drive.google.com/uc?export=download&id=${fileId}`;
+    }
+    return url;
+  };
+
+  const handleFilePress = (uri: string) => {
+    const embeddedViewerUri = convertGoogleDriveLink(uri);
+    setSelectedPdfUri(embeddedViewerUri);
+  };
+
+  const handleDownloadPress = (uri: string) => {
+    const directDownloadUri = convertToDirectDownloadLink(uri);
+    Linking.openURL(directDownloadUri).catch(() => {
+      Alert.alert("Error", "Failed to open the download link");
+    });
   };
 
   const renderPdfList = (items: PdfItem[]) => (
@@ -93,7 +121,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
         <Animated.View entering={SlideInRight.delay(index * 50)}>
           <TouchableOpacity
             style={styles.pdfItem}
-            onPress={() => openPdf(item.uri)}
+            onPress={() => handleFilePress(item.uri)}
             activeOpacity={0.7}
           >
             <View style={styles.pdfIconContainer}>
@@ -116,12 +144,35 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
         </Animated.View>
       );
     }
-
     switch (currentTab) {
       case "exams":
-        return renderPdfList(pdfData.exams);
       case "attachments":
-        return renderPdfList(pdfData.attachments);
+        return (
+          <View style={styles.tabContainer}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="ابحث عن مرفق"
+                placeholderTextColor="#888"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+              {searchQuery.length > 0 && (
+                <TouchableOpacity
+                  style={styles.clearButton}
+                  onPress={() => setSearchQuery("")}
+                >
+                  <MaterialIcons name="close" size={20} color="#888" />
+                </TouchableOpacity>
+              )}
+            </View>
+            {filteredItems.length > 0 ? (
+              renderPdfList(filteredItems)
+            ) : (
+              <Text style={styles.noResultsText}>هذا العنصر غير متوفر حاليا</Text>
+            )}
+          </View>
+        );
       default:
         return (
           <Animated.View
@@ -137,7 +188,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
                 source={require("@/assets/images/exams-button.png")}
               />
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.contentContainer}
               onPress={() => setCurrentTab("attachments")}
@@ -156,6 +206,37 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
     <View style={styles.pageContainer}>
       <Text style={styles.subjectTitle}>{subjectName}</Text>
       {renderContent()}
+
+      <Modal
+        visible={!!selectedPdfUri}
+        animationType="slide"
+        onRequestClose={() => setSelectedPdfUri(null)}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setSelectedPdfUri(null)}
+          >
+            <MaterialIcons name="close" size={24} color="#0899EC" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.downloadButton}
+            onPress={() => handleDownloadPress(selectedPdfUri || "")}
+          >
+            <MaterialIcons name="file-download" size={24} color="#0899EC" />
+          </TouchableOpacity>
+
+          <WebView
+            source={{ uri: selectedPdfUri || "" }}
+            style={styles.webview}
+            startInLoadingState={true}
+            renderLoading={() => (
+              <ActivityIndicator size="large" color="#2196F3" />
+            )}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -168,12 +249,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   subjectTitle: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#2196F3",
-    marginVertical: 20,
+    marginTop: 80,
     width: "100%",
     textAlign: "center",
+    zIndex: 100,
   },
   container: {
     flex: 1,
@@ -236,6 +318,68 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-around",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingTop: 40,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 50,
+    left: 15,
+    zIndex: 100,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "rgba(8, 153, 236, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  downloadButton: {
+    position: "absolute",
+    top: 50,
+    right: 15,
+    zIndex: 100,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "rgba(8, 153, 236, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  webview: {
+    flex: 1,
+  },
+  tabContainer: {
+    flex: 1,
+    width: "100%",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    fontSize: 16,
+    color: "#000",
+    textAlign: "right",
+  },
+  clearButton: {
+    padding: 5,
+  },
+  noResultsText: {
+    textAlign: "center",
+    marginTop: 20,
+    fontSize: 16,
+    color: "#888",
   },
 });
 

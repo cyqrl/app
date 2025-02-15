@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Alert, ActivityIndicator } from "react-native";
-import * as Linking from 'expo-linking';
-import Animated, { SlideInRight, FadeIn } from 'react-native-reanimated';
-import { MaterialIcons } from '@expo/vector-icons';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  Alert,
+  Modal,
+  ActivityIndicator,
+  TextInput,
+} from "react-native";
+import { WebView } from "react-native-webview";
+import * as Linking from "expo-linking";
+import Animated, { SlideInRight, FadeIn } from "react-native-reanimated";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface PdfItem {
   id: string;
@@ -16,48 +28,100 @@ interface PdfData {
 }
 
 interface PdfViewerProps {
+  subjectKey: string;
   subjectName: string;
-  examPdfs: PdfItem[];
-  attachmentPdfs: PdfItem[];
 }
 
-const PdfViewer: React.FC<PdfViewerProps> = ({ subjectName, examPdfs, attachmentPdfs }) => {
-  const [currentTab, setCurrentTab] = useState<"home" | "exams" | "attachments">("home");
+const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
+  const [pdfData, setPdfData] = useState<PdfData>({
+    exams: [],
+    attachments: [],
+  });
   const [loading, setLoading] = useState(true);
+  const [currentTab, setCurrentTab] = useState<"home" | "exams" | "attachments">("home");
+  const [selectedPdfUri, setSelectedPdfUri] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredItems, setFilteredItems] = useState<PdfItem[]>([]);
+
   const windowWidth = Dimensions.get("window").width;
   const isTablet = windowWidth > 768;
 
   useEffect(() => {
-    // Simulate loading delay
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://cyqrl.github.io/Contents/main.json");
+        const data = await response.json();
+        const gradeData = data["12"];
+        const subjectData = gradeData[subjectKey];
 
-  const openPdf = async (uri: string) => {
-    try {
-      const supported = await Linking.canOpenURL(uri);
-      if (supported) {
-        await Linking.openURL(uri);
-      } else {
-        Alert.alert('Error', 'No PDF reader app found');
+        if (subjectData) {
+          setPdfData({
+            exams: subjectData.exams || [],
+            attachments: subjectData.attachments || [],
+          });
+        } else {
+          setPdfData({ exams: [], attachments: [] });
+        }
+      } catch (error) {
+        Alert.alert("Error", "Failed to fetch data");
+        setPdfData({ exams: [], attachments: [] });
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to open PDF');
+    };
+    fetchData();
+  }, [subjectKey]);
+
+  useEffect(() => {
+    if (currentTab === "exams" || currentTab === "attachments") {
+      const items = currentTab === "exams" ? pdfData.exams : pdfData.attachments;
+      const filtered = items.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredItems(filtered);
     }
+  }, [searchQuery, currentTab, pdfData.exams, pdfData.attachments]);
+
+  const convertGoogleDriveLink = (url: string) => {
+    const fileId = url.match(/\/d\/(.+?)\//)?.[1];
+    if (fileId) {
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+    return url;
+  };
+
+  const convertToDirectDownloadLink = (url: string) => {
+    const fileId = url.match(/\/d\/(.+?)\//)?.[1];
+    if (fileId) {
+      return `https://drive.google.com/uc?export=download&id=${fileId}`;
+    }
+    return url;
+  };
+
+  const handleFilePress = (uri: string) => {
+    const embeddedViewerUri = convertGoogleDriveLink(uri);
+    setSelectedPdfUri(embeddedViewerUri);
+  };
+
+  const handleDownloadPress = (uri: string) => {
+    const directDownloadUri = convertToDirectDownloadLink(uri);
+    Linking.openURL(directDownloadUri).catch(() => {
+      Alert.alert("Error", "Failed to open the download link");
+    });
   };
 
   const renderPdfList = (items: PdfItem[]) => (
     <Animated.FlatList
       data={items}
-      keyExtractor={item => item.id}
-      numColumns={isTablet ? 3 : 1} // 3 columns for tablet, 1 for mobile
+      keyExtractor={(item) => item.id}
+      numColumns={isTablet ? 3 : 1}
       contentContainerStyle={styles.listContent}
       showsVerticalScrollIndicator={false}
       renderItem={({ item, index }) => (
         <Animated.View entering={SlideInRight.delay(index * 50)}>
           <TouchableOpacity
             style={styles.pdfItem}
-            onPress={() => openPdf(item.uri)}
+            onPress={() => handleFilePress(item.uri)}
             activeOpacity={0.7}
           >
             <View style={styles.pdfIconContainer}>
@@ -80,12 +144,35 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectName, examPdfs, attachment
         </Animated.View>
       );
     }
-
     switch (currentTab) {
       case "exams":
-        return renderPdfList(examPdfs);
       case "attachments":
-        return renderPdfList(attachmentPdfs);
+        return (
+          <View style={styles.tabContainer}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="ابحث عن المرفق"
+                placeholderTextColor="#888"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+              {searchQuery.length > 0 && (
+                <TouchableOpacity
+                  style={styles.clearButton}
+                  onPress={() => setSearchQuery("")}
+                >
+                  <MaterialIcons name="close" size={20} color="#888" />
+                </TouchableOpacity>
+              )}
+            </View>
+            {filteredItems.length > 0 ? (
+              renderPdfList(filteredItems)
+            ) : (
+              <Text style={styles.noResultsText}>هذا العنصر غير متوفر حاليا</Text>
+            )}
+          </View>
+        );
       default:
         return (
           <Animated.View
@@ -101,7 +188,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectName, examPdfs, attachment
                 source={require("@/assets/images/exams-button.png")}
               />
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.contentContainer}
               onPress={() => setCurrentTab("attachments")}
@@ -120,6 +206,37 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectName, examPdfs, attachment
     <View style={styles.pageContainer}>
       <Text style={styles.subjectTitle}>{subjectName}</Text>
       {renderContent()}
+
+      <Modal
+        visible={!!selectedPdfUri}
+        animationType="slide"
+        onRequestClose={() => setSelectedPdfUri(null)}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setSelectedPdfUri(null)}
+          >
+            <MaterialIcons name="close" size={24} color="#0899EC" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.downloadButton}
+            onPress={() => handleDownloadPress(selectedPdfUri || "")}
+          >
+            <MaterialIcons name="file-download" size={24} color="#0899EC" />
+          </TouchableOpacity>
+
+          <WebView
+            source={{ uri: selectedPdfUri || "" }}
+            style={styles.webview}
+            startInLoadingState={true}
+            renderLoading={() => (
+              <ActivityIndicator size="large" color="#2196F3" />
+            )}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -129,17 +246,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   subjectTitle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#2196F3',
-    marginVertical: 20,
-    top: 50,
-    right: -120,
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#2196F3",
+    marginTop: 80,
     width: "100%",
-    backgroundColor: 'white',
+    textAlign: "center",
     zIndex: 100,
   },
   container: {
@@ -157,7 +272,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: "hidden",
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
@@ -167,7 +282,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   pdfItem: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
@@ -175,31 +289,97 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 16,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    maxWidth: "100%",
+    width: 300,
   },
   pdfIconContainer: {
     marginBottom: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   pdfName: {
-    color: '#212121',
+    color: "#212121",
     fontSize: 16,
-    textAlign: 'center',
-    fontWeight: '500',
+    textAlign: "center",
+    fontWeight: "500",
     marginTop: 8,
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   listContent: {
-    top: 70,
+    paddingTop: 20,
+    paddingBottom: 100,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingTop: 40,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 50,
+    left: 15,
+    zIndex: 100,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "rgba(8, 153, 236, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  downloadButton: {
+    position: "absolute",
+    top: 50,
+    right: 15,
+    zIndex: 100,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "rgba(8, 153, 236, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  webview: {
+    flex: 1,
+  },
+  tabContainer: {
+    flex: 1,
+    width: "100%",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    fontSize: 16,
+    color: "#000",
+    textAlign: "right",
+  },
+  clearButton: {
+    padding: 5,
+  },
+  noResultsText: {
+    textAlign: "center",
+    marginTop: 20,
+    fontSize: 16,
+    color: "#888",
   },
 });
 

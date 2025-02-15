@@ -26,6 +26,8 @@ const HomeScreen = () => {
       { name: "مباني ذكية", key: "smart_homes" },
       { name: "ميكانيك سيارات", key: "mechanics" },
       { name: "نجارة", key: "carpentry" },
+      { name: "تطبيقات الموبايل", key: "apps" },
+      { name: "صيانة حاسوب", key: "computer" },
       { name: "رسم صناعي", key: "drawing" },
     ],
   };

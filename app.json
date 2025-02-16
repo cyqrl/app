@@ -4,7 +4,7 @@
     "slug": "industry-portal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo-loader.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#2196F3"
       },
       "package": "com.cyqrl.industryportal"

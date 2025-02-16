@@ -121,7 +121,7 @@ const HomeScreen = () => {
             </View>
           </View>
 
-          <View style={styles.drawer}>
+          <View style={[styles.drawer, { bottom: -30 }]}>
             <Text style={styles.drawerLabel}>المواد المهنية</Text>
             <Text style={styles.drawerContent}>
               {drawers.drawer2[selectedDrawer2].name}
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dropdownButton: {
-    padding: 10,
+    padding: 5,
     backgroundColor: "#2196F3",
     borderRadius: 5,
     position: "absolute",
@@ -195,10 +195,10 @@ const styles = StyleSheet.create({
     borderColor: "#BDBDBD",
     backgroundColor: "#FFFFFF",
     padding: 10,
-    marginVertical: 30,
+    marginTop: 30,
     borderRadius: 5,
     width: "70%",
-    height: "30%",
+    height: "37%",
   },
   drawerLabel: {
     transform: [{ translateY: -25 }],
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
     fontSize: 30,
-    top: 40,
+    top: 30,
     color: "#212121",
   },
   actionButtonText: {

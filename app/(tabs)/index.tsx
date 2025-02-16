@@ -41,7 +41,7 @@ const HomeScreen = () => {
   // Responsive design values
   const responsive = {
     titleSize: isTablet ? 32 : 26,
-    subtitleSize: isTablet ? 22 : 18,
+    subtitleSize: isTablet ? 22 : 15,
     sectionPadding: isTablet ? 25 : 20,
     iconSize: isTablet ? 34 : 25,
   };
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   title: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "right",
+    textAlign: "center",
     fontFamily: "NotoArabic-Regular",
     lineHeight: 38,
   },

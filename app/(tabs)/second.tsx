@@ -24,6 +24,7 @@ export default function SecondScreen() {
       { name: "نجارة", key: "carpentry" },
       { name: "تطبيقات الموبايل", key: "apps" },
       { name: "صيانة حاسوب", key: "computer" },
+      { name: "إلكترونيات صناعية", key: "electronics" },
     ],
   };
 

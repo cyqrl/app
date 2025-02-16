@@ -4,7 +4,7 @@
     "slug": "industry-portal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo-loader.gif",
+    "icon": "./assets/images/logo-loader.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -32,7 +32,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo-loader.gif",
+          "image": "./assets/images/logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#2196F3"

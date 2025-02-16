@@ -30,28 +30,38 @@ interface PdfData {
 interface PdfViewerProps {
   subjectKey: string;
   subjectName: string;
+  grade: string;
 }
 
-const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
+const PdfViewer: React.FC<PdfViewerProps> = ({
+  subjectKey,
+  subjectName,
+  grade,
+}) => {
   const [pdfData, setPdfData] = useState<PdfData>({
     exams: [],
     attachments: [],
   });
   const [loading, setLoading] = useState(true);
-  const [currentTab, setCurrentTab] = useState<"home" | "exams" | "attachments">("home");
+  const [currentTab, setCurrentTab] = useState<
+    "home" | "exams" | "attachments"
+  >("home");
   const [selectedPdfUri, setSelectedPdfUri] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredItems, setFilteredItems] = useState<PdfItem[]>([]);
 
   const windowWidth = Dimensions.get("window").width;
   const isTablet = windowWidth > 768;
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://cyqrl.github.io/Contents/main.json");
+        const response = await fetch(
+          "https://cyqrl.github.io/Contents/main.json"
+        );
         const data = await response.json();
-        const gradeData = data["11"];
+        const gradeData = data[grade];
         const subjectData = gradeData[subjectKey];
 
         if (subjectData) {
@@ -70,11 +80,12 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
       }
     };
     fetchData();
-  }, [subjectKey]);
+  }, [subjectKey, grade]);
 
   useEffect(() => {
     if (currentTab === "exams" || currentTab === "attachments") {
-      const items = currentTab === "exams" ? pdfData.exams : pdfData.attachments;
+      const items =
+        currentTab === "exams" ? pdfData.exams : pdfData.attachments;
       const filtered = items.filter((item) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -110,12 +121,38 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
     });
   };
 
+  const renderSearchInput = () => (
+    <View style={styles.searchContainer}>
+      <TextInput
+        style={styles.searchInput}
+        placeholder={
+          currentTab === "exams" ? "ابحث عن امتحان" : "ابحث عن مرفق"
+        }
+        placeholderTextColor="#888"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+      {searchQuery.length > 0 && (
+        <TouchableOpacity
+          style={styles.clearButton}
+          onPress={() => setSearchQuery("")}
+        >
+          <MaterialIcons name="close" size={20} color="#888" />
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+
   const renderPdfList = (items: PdfItem[]) => (
     <Animated.FlatList
       data={items}
       keyExtractor={(item) => item.id}
       numColumns={isTablet ? 3 : 1}
-      contentContainerStyle={styles.listContent}
+      contentContainerStyle={[
+        styles.listContent,
+        { alignItems: "center" },
+      ]}
+      columnWrapperStyle={isTablet ? styles.columnWrapper : null}
       showsVerticalScrollIndicator={false}
       renderItem={({ item, index }) => (
         <Animated.View entering={SlideInRight.delay(index * 50)}>
@@ -146,30 +183,28 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ subjectKey, subjectName }) => {
     }
     switch (currentTab) {
       case "exams":
-      case "attachments":
         return (
           <View style={styles.tabContainer}>
-            <View style={styles.searchContainer}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="ابحث عن مرفق"
-                placeholderTextColor="#888"
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-              />
-              {searchQuery.length > 0 && (
-                <TouchableOpacity
-                  style={styles.clearButton}
-                  onPress={() => setSearchQuery("")}
-                >
-                  <MaterialIcons name="close" size={20} color="#888" />
-                </TouchableOpacity>
-              )}
-            </View>
+            {renderSearchInput()}
             {filteredItems.length > 0 ? (
               renderPdfList(filteredItems)
             ) : (
-              <Text style={styles.noResultsText}>هذا العنصر غير متوفر حاليا</Text>
+              <Text style={styles.noResultsText}>
+                لا توجد نتائج للبحث
+              </Text>
+            )}
+          </View>
+        );
+      case "attachments":
+        return (
+          <View style={styles.tabContainer}>
+            {renderSearchInput()}
+            {filteredItems.length > 0 ? (
+              renderPdfList(filteredItems)
+            ) : (
+              <Text style={styles.noResultsText}>
+                لا توجد نتائج للبحث
+              </Text>
             )}
           </View>
         );
@@ -252,7 +287,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     color: "#2196F3",
-    marginTop: 80,
     width: "100%",
     textAlign: "center",
     zIndex: 100,
@@ -262,7 +296,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    flexWrap: "wrap",
   },
   contentContainer: {
     justifyContent: "center",
@@ -278,8 +311,11 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   buttonImage: {
-    width: 350,
-    height: 200,
+    width: 300,
+    height: 180,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
   },
   pdfItem: {
     justifyContent: "center",
@@ -315,9 +351,7 @@ const styles = StyleSheet.create({
   listContent: {
     paddingTop: 20,
     paddingBottom: 100,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
   },
   modalContainer: {
     flex: 1,
@@ -354,26 +388,23 @@ const styles = StyleSheet.create({
   tabContainer: {
     flex: 1,
     width: "100%",
+    paddingHorizontal: 10,
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 10,
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
     paddingHorizontal: 10,
+    margin: 10,
   },
   searchInput: {
     flex: 1,
     height: 40,
-    fontSize: 16,
     color: "#000",
-    textAlign: "right",
   },
   clearButton: {
-    padding: 5,
+    marginLeft: 10,
   },
   noResultsText: {
     textAlign: "center",

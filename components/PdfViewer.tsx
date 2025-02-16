@@ -86,9 +86,12 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
     if (currentTab === "exams" || currentTab === "attachments") {
       const items =
         currentTab === "exams" ? pdfData.exams : pdfData.attachments;
-      const filtered = items.filter((item) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      const filtered = items.filter((item) => {
+        const searchTerms = searchQuery.toLowerCase().split(' ');
+        return searchTerms.every(term => 
+          item.name.toLowerCase().includes(term)
+        );
+      });
       setFilteredItems(filtered);
     }
   }, [searchQuery, currentTab, pdfData.exams, pdfData.attachments]);

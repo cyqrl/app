@@ -73,7 +73,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
           setPdfData({ exams: [], attachments: [] });
         }
       } catch (error) {
-        Alert.alert("Error", "Failed to fetch data");
+        Alert.alert("تعذر التحميل", "يرجى التحقق من الاتصال بالانترنت");
         setPdfData({ exams: [], attachments: [] });
       } finally {
         setLoading(false);
@@ -120,7 +120,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   const handleDownloadPress = (uri: string) => {
     const directDownloadUri = convertToDirectDownloadLink(uri);
     Linking.openURL(directDownloadUri).catch(() => {
-      Alert.alert("Error", "Failed to open the download link");
+      Alert.alert("تعذر التحميل", "يرجى التحقق من الاتصال بالانترنت");
     });
   };
 

@@ -17,7 +17,6 @@ import Animated, { SlideInRight, FadeIn } from "react-native-reanimated";
 import { MaterialIcons } from "@expo/vector-icons";
 
 interface PdfItem {
-  id: string;
   name: string;
   uri: string;
 }
@@ -149,7 +148,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
   const renderPdfList = (items: PdfItem[]) => (
     <Animated.FlatList
       data={items}
-      keyExtractor={(item) => item.id}
       numColumns={isTablet ? 3 : 1}
       contentContainerStyle={[
         styles.listContent,

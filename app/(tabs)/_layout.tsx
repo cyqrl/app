@@ -231,11 +231,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     top: 5,
+    
   },
   inactiveLabel: {
     fontSize: 16,
     color: "#fff",
     textAlign: "center",
+    
   },
   activeContainer: {
     position: "absolute",
@@ -243,6 +245,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 6,
+    
   },
   rowContent: {
     flexDirection: "row",

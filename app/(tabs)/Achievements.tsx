@@ -64,7 +64,7 @@ const Achievements = () => {
 
   return (
     <LinearGradient
-      colors={["#E3F2FD", "#BBDEFB", "#90CAF9"]}
+      colors={["#fff", "#f1efea"]}
       style={styles.container}
     >
       <ScrollView showsVerticalScrollIndicator={false}>

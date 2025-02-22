@@ -1,116 +1,70 @@
 import { Tabs } from "expo-router";
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   View,
   StyleSheet,
   Text,
-  Animated,
   Pressable,
-  PressableProps,
+  Image,
   ImageSourcePropType,
+  Animated,
 } from "react-native";
 import type { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 
-interface TabButtonProps extends PressableProps {
+interface TabButtonProps extends BottomTabBarButtonProps {
   iconSource: ImageSourcePropType;
   label: string;
-  selected?: boolean;
   iconSizeRange?: [number, number];
 }
 
 const TabButton = ({
-  selected = false,
   iconSource,
   label,
   iconSizeRange,
   ...props
 }: TabButtonProps) => {
   const [iconInactiveSize, iconActiveSize] = iconSizeRange || [24, 32];
-  const animValue = useRef(new Animated.Value(selected ? 1 : 0)).current;
+  const iconSize = props.accessibilityState?.selected
+    ? iconActiveSize
+    : iconInactiveSize;
+  const translateY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.timing(animValue, {
-      toValue: selected ? 1 : 0,
+    Animated.timing(translateY, {
+      toValue: props.accessibilityState?.selected ? 0 : -10,
       duration: 250,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
-  }, [selected]);
-
-  const inactiveOpacity = animValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0],
-  });
-  const activeOpacity = animValue;
-  const iconSize = animValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [iconInactiveSize, iconActiveSize],
-  });
-  const inactiveScale = animValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1.1, 1],
-  });
-  const baseTranslateY = 5;
-  const activeExtraTranslateY = animValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 10],
-  });
+  }, [props.accessibilityState?.selected]);
 
   return (
     <Pressable
       {...props}
       style={styles.tabPressable}
       accessibilityRole="button"
-      accessibilityState={{ selected }}
     >
       <Animated.View
         style={[
-          styles.inactiveContainer,
-          {
-            opacity: inactiveOpacity,
-            transform: [
-              { translateY: baseTranslateY },
-              { scale: inactiveScale },
-            ],
-          },
+          props.accessibilityState?.selected
+            ? styles.activeContainer
+            : styles.inactiveContainer,
+          { transform: [{ translateY }] },
         ]}
       >
-        <Animated.Image
+        <Image
           source={iconSource}
-          style={[
-            {
-              width: iconSize,
-              height: iconSize,
-            },
-          ]}
+          style={{ width: iconSize, height: iconSize }}
           resizeMode="contain"
         />
-        <Text style={styles.inactiveLabel}>{label}</Text>
-      </Animated.View>
-      <Animated.View
-        style={[
-          styles.activeContainer,
-          {
-            opacity: activeOpacity,
-            transform: [
-              { translateY: Animated.add(baseTranslateY, activeExtraTranslateY) },
-            ],
-          },
-        ]}
-      >
-        <View style={styles.rowContent}>
-          <Animated.Image
-            source={iconSource}
-            style={[
-              styles.activeIcon,
-              {
-                width: iconSize,
-                height: iconSize,
-              },
-            ]}
-            resizeMode="contain"
-          />
-          <Text style={styles.activeLabel}>{label}</Text>
-        </View>
+        <Text
+          style={
+            props.accessibilityState?.selected
+              ? styles.activeLabel
+              : styles.inactiveLabel
+          }
+        >
+          {label}
+        </Text>
       </Animated.View>
     </Pressable>
   );
@@ -133,58 +87,42 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "الرئيسية",
-          tabBarButton: (props: BottomTabBarButtonProps) => {
-            const { accessibilityState, onPress, ...rest } = props;
-            const selected = accessibilityState?.selected || false;
-            return (
-              <TabButton
-                {...rest}
-                selected={selected}
-                onPress={onPress}
-                iconSource={require("@/assets/images/home.png")}
-                label="الرئيسية"
-              />
-            );
-          },
+          tabBarButton: (props) => (
+            <TabButton
+              {...props}
+              iconSizeRange={[28, 28]}
+              iconSource={require("@/assets/images/home.png")}
+              label="الرئيسية"
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="second"
         options={{
           title: "ثاني ثانوي",
-          tabBarButton: (props: BottomTabBarButtonProps) => {
-            const { accessibilityState, onPress, ...rest } = props;
-            const selected = accessibilityState?.selected || false;
-            return (
-              <TabButton
-                {...rest}
-                selected={selected}
-                onPress={onPress}
-                iconSizeRange={[28, 38]}
-                iconSource={require("@/assets/images/second.png")}
-                label="ثاني ثانوي"
-              />
-            );
-          },
+          tabBarButton: (props) => (
+            <TabButton
+              {...props}
+              iconSizeRange={[28, 28]}
+              iconSource={require("@/assets/images/second.png")}
+              label="ثاني ثانوي"
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="first"
         options={{
           title: "أول ثانوي",
-          tabBarButton: (props: BottomTabBarButtonProps) => {
-            const { accessibilityState, onPress, ...rest } = props;
-            const selected = accessibilityState?.selected || false;
-            return (
-              <TabButton
-                {...rest}
-                selected={selected}
-                onPress={onPress}
-                iconSource={require("@/assets/images/first.png")}
-                label="أول ثانوي"
-              />
-            );
-          },
+          tabBarButton: (props) => (
+            <TabButton
+              {...props}
+              iconSizeRange={[28, 28]}
+              iconSource={require("@/assets/images/first.png")}
+              label="أول ثانوي"
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -220,43 +158,34 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(27, 128, 211, 0.95)",
     justifyContent: "center",
     alignItems: "center",
-  }, 
+  },
   tabPressable: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   inactiveContainer: {
-    position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    top: 5,
-    
   },
   inactiveLabel: {
     fontSize: 16,
     color: "#fff",
     textAlign: "center",
-    
   },
   activeContainer: {
-    position: "absolute",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    
-  },
-  rowContent: {
-    flexDirection: "row",
     alignItems: "center",
-  },
-  activeIcon: {
-    marginRight: 8,
+    justifyContent: "center",
+    flexDirection: "row",
   },
   activeLabel: {
     fontSize: 18,
     color: "#fff",
     fontWeight: "600",
+    marginHorizontal: 3,
   },
 });

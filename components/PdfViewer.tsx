@@ -51,7 +51,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({
 
   const windowWidth = Dimensions.get("window").width;
   const isTablet = windowWidth > 768;
-  
+    
 
   useEffect(() => {
     const fetchData = async () => {
